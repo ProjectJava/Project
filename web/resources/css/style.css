@@ -307,6 +307,7 @@ ul.contact li a.icon-rss:before { background: #F2600B; }
     background: #16a085;
     width: 100%;
     z-index: 100;
+    transition: .3s;
 }
 
 #menu ul {
@@ -340,6 +341,11 @@ ul.contact li a.icon-rss:before { background: #F2600B; }
 
 #menu .current_page_item a {
     background: #1abc9c;
+}
+
+#menu.menu-small {
+    height: 50px;
+    transition: .3s;
 }
 
 /** PAGE */
