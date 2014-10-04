@@ -1,4 +1,5 @@
 $(function () {
+	//SMOOTH SCROLLING
     $('a[href*=#]:not([href=#])').click(function () {
         if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
             var target = $(this.hash);
@@ -14,12 +15,12 @@ $(function () {
         }
     });
 
-
+	//MENU AANPASSEN BIJ SCROLLEN
     $(window).scroll(function () {
-        if ($(window).scrollTop() >= 150) {
-            $('#menu').addClass("menu-small");
+        if ($(window).scrollTop() >= 280) {
+            $('#menu').addClass("menu-resize");
         } else {
-            $('#menu').removeClass("menu-small");
+            $('#menu').removeClass("menu-resize");
         }
     });
 });

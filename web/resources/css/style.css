@@ -1,622 +1,244 @@
-html, body {
-    height: 100%;
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "Dosis", sans-serif;
 }
 
 body {
-    margin: 0px;
-    padding: 0px;
-    background: #16a085;
-    font-family: 'Raleway', sans-serif;
-    font-size: 11pt;
-    font-weight: 400;
-    color: #363636;
+	background-color: rgb(40,160,135);
 }
 
-
-h1, h2, h3 {
-    margin: 0;
-    padding: 0;
+h1 {
+	font-size: 40px;
+	font-weight: 400;
+	text-transform: uppercase;
 }
 
-p, ol, ul {
-    margin-top: 0px;
+h2 {
+	font-size: 30px;
+	font-weight: 400;
+	margin-bottom: 50px;
+	text-transform: uppercase;
+}
+
+h3 {
+	font-size: 20px;
+	text-transform: uppercase;
 }
 
 p {
-    line-height: 190%;
+	font-weight: 400;
+	margin: 10px;
+	font-size: 18px;
 }
 
-strong {
-}
-
-a {
-    color: #171717;
-}
-
-a:hover {
-    text-decoration: none;
-}
-
-a img {
-    border: none;
-}
-
-.image
-{
-    display: inline-block;
-}
-
-.image img
-{
-    display: block;
-    width: 100%;
-}
-
-.image-full
-{
-    display: block;
-    width: 100%;
-    margin: 0 0 2em 0;
-}
-
-.image-left
-{
-    float: left;
-    margin: 0 2em 2em 0;
-}
-
-.image-centered
-{
-    display: block;
-    margin: 0 0 2em 0;
-}
-
-.image-centered img
-{
-    margin: 0 auto;
-    width: auto;
-}
-
-hr {
-    display: none;
-}
-
-
-/*********************************************************************************/
-/* List Styles                                                                   */
-/*********************************************************************************/
-
-ul.style1
-{
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-ul.style1 li
-{
-    border-top: solid 1px #E5E5E5;
-    padding: 0.80em 0;
-}
-
-ul.style1 li:first-child
-{
-    border-top: 0;
-    padding-top: 0;
-}
-
-ul.style2
-{
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-ul.style2 li
-{
-    border-top: solid 1px #E5E5E5;
-    padding: 0.80em 0;
-}
-
-ul.style2 li:first-child
-{
-    border-top: 0;
-    padding-top: 0;
-}
-
-/*********************************************************************************/
-/* Social Icon Styles                                                            */
-/*********************************************************************************/
-
-ul.contact
-{
-    margin: 0;
-    padding: 1.5em 0em 2.5em 0em;
-    list-style: none;
-}
-
-ul.contact li
-{
-    display: inline-block;
-    padding: 0em 0.30em;
-    font-size: 1em;
-}
-
-ul.contact li span
-{
-    display: none;
-    margin: 0;
-    padding: 0;
-}
-
-ul.contact li a
-{
-    color: #FFF;
-}
-
-ul.contact li a:before
-{
-    display: inline-block;
-    background: #3f3f3f;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    color: #FFFFFF;
-}
-
-ul.contact li a.icon-twitter:before { background: #2DAAE4; }
-ul.contact li a.icon-facebook:before { background: #39599F; }
-ul.contact li a.icon-dribbble:before { background: #C4376B;	}
-ul.contact li a.icon-tumblr:before { background: #31516A; }
-ul.contact li a.icon-rss:before { background: #F2600B; }
-
-
-/*********************************************************************************/
-/* Heading Titles                                                                */
-/*********************************************************************************/
-
-.title
-{
-    margin-bottom: 2em;
-    text-transform: uppercase;
-}
-
-.title h2
-{
-    font-weight: 400;
-    font-size: 2em;
-    color: #16a085;
-}
-
-.title .byline
-{
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    font-weight: 400;
-    font-size: 0.90em;
-    color: #6F6F6F;
-}
-
-/** WRAPPER */
-
-#wrapper {
-    background: #FFFFFF url(images/bg01.png) repeat;
-}
-
-#footer-wrapper
-{
-    background: #0F0F0F;
+.clearfix:after {
+	content: "";
+	clear: both;
+	display: block;
+	visibility: hidden;
+	height: 0;
 }
 
 .container {
-    width: 1200px;
-    margin: 0px auto;
+	width: 100%;
+	max-width: 1000px;
+	margin: 0 auto;
 }
 
-.clearfix {
-    clear: both;
+#wrapper {
+	margin-bottom: 100px;
+        background-image: url("#{resource['img/header-2.jpg']}");
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
 }
 
+/** MENU **/
 
-/*********************************************************************************/
-/* Wrappers                                                                      */
-/*********************************************************************************/
-
-#header-wrapper
-{
-    overflow: hidden;
-    background: url(images/bg01.png) repeat;
-    background-size: 100%;
-    padding: 6em 0em 2em 0em;
-    padding-top: 150px;
-    background: #333333;
-}
-
-
-/*********************************************************************************/
-/* Header                                                                        */
-/*********************************************************************************/
-
-#header 
-{
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-}
-
-/*********************************************************************************/
-/* Logo                                                                          */
-/*********************************************************************************/
-
-#logo 
-{
-    width: 500px;
-    height: 100px;
-    margin: 0 auto;
-    padding: 2em 0em;
-    text-transform: uppercase;
-}
-
-#logo h1
-{
-    letter-spacing: 0.10em;
-    font-size: 3em;
-}
-
-#logo p 
-{
-    letter-spacing: 0.10em;
-    color: #FFF;
-}
-
-#logo a 
-{
-    text-decoration: none;
-    color: #FFF;
-}
-
-/*********************************************************************************/
-/* Banner                                                                        */
-/*********************************************************************************/
-
-#banner 
-{
-    overflow: hidden;
-    height: 500px;
-    background: url(images/pic01.jpg) no-repeat center;
-    background-size: cover;
-}
-
-#banner .image
-{
-}
-
-
-/** MENU */
-
-#menu-wrapper
-{
-    background: #16a085;
+#menu-wrapper {
+	width: 100%;
+	background-color: rgb(40,160,135);
+	color: white;
+	font-weight: 200;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 20;
 }
 
 #menu {
-    overflow: hidden;
-    height: 100px;
-    position: fixed;
-    background: #16a085;
-    width: 100%;
-    z-index: 100;
-    transition: .3s;
+	height: 100px;
+	transition: .3s;
 }
 
 #menu ul {
-    margin: 0;
-    padding: 0px 0px 0px 0px;
-    list-style: none;
-    line-height: normal;
-    text-align: center;
+	list-style: none;
+	line-height: normal;
+	text-align: center;
 }
 
 #menu li {
-    display: inline-block;
+	display: inline-block;
 }
+
+#menu li.current {
+	background-color: rgb(47,188,156);
+}
+
 
 #menu a {
-    display: block;
-    letter-spacing: 1px;
-    padding: 0px 40px;
-    text-decoration: none;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 0.80em;
-    line-height: 100px;
-    border: none;
-    color: #FFF;
+	text-decoration: none;
+	display: block;
+	padding: 0px 40px;
+	text-align: center;
+	text-transform: uppercase;
+	line-height: 100px;
+	border: none;
+	color: white;
+	transition: .3s;
 }
 
-#menu a:hover, #menu .current_page_item a {
-    text-decoration: none;
-}
-
-#menu .current_page_item a {
-    background: #1abc9c;
-    transition: .3s;
-}
-
-#menu.menu-small {
-    height: 50px;
-    transition: .3s;
-}
-
-#menu.menu-small a {
-    display: block;
-    letter-spacing: 1px;
-    padding: 0px 40px;
-    text-decoration: none;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 0.80em;
-    line-height: 50px;
-    border: none;
-    color: #FFF;
-}
-
-/** PAGE */
-
-#page
-{
-    position: relative;
-    overflow: hidden;
-    padding: 6em 0em 5em 0em;
-}
-
-/** CONTENT */
-
-#content
-{
-    float: left;
-    width: 790px;
-}
-
-/*********************************************************************************/
-/* Sidebar                                                                       */
-/*********************************************************************************/
-
-#sidebar
-{
-    float: right;
-    width: 345px;
-}
-
-#sidebar .title h2
-{
-    font-size: 1.6em;
-}
-
-#sidebar .box1
-{
-    margin-bottom: 3em;
+#menu a:hover {
+	text-decoration: underline;
 }
 
 
-/*********************************************************************************/
-/* Copyright                                                                     */
-/*********************************************************************************/
-
-#copyright
-{
-    overflow: hidden;
-    padding: 5em 0em;
-    text-align: center;
+#menu li.current a:hover {
+	text-decoration: none;
 }
 
-#copyright p
-{
-    letter-spacing: 0.20em;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 0.80em;
-    color: rgba(255,255,255,.5);
+.menu-resize {
+	height: 50px !important;
 }
 
-#copyright a
-{
-    text-decoration: none;
-    color: rgba(255,255,255,.7);
+.menu-resize a {
+	padding: 0px 20px !important;
+	line-height: 50px !important;
 }
 
-/*********************************************************************************/
-/* Welcome                                                                       */
-/*********************************************************************************/
+/** HEADER **/
 
-#welcome
-{
-    overflow: hidden;
-    padding: 5em 0em;
-    border-bottom: 1px solid #E5E5E5;
-    text-align: center;
+#header-wrapper {
+	width: 100%;
+	height: 350px;
+	background: rgba(51,51,51, 0.8);
+	color: white;
+	text-transform: uppercase;
+	font-weight: 200;
+	text-align: center;
 }
 
-#welcome h2
-{
-    letter-spacing: 0.20em;
-    text-transform: uppercase;
-    font-size: 2.6em;
+#header {
+	padding-top: 187px;
 }
 
-#welcome p
-{
-    font-size: 1.3em;
-}
-
-#welcome .byline
-{
-    display: block;
-    padding: 0em 0em 1.5em 0em;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    font-weight: 400;
-    font-size: 1.2em;
-    color: #6F6F6F;
-}
-
-/*********************************************************************************/
-/* Portfolio                                                                     */
-/*********************************************************************************/
-
-#portfolio-wrapper
-{
-    background: rgba(0,0,0,.04);
-    padding: 6em 0em;
-    color: rgba(255,255,255,.7);
-}
-
-#portfolio
-{
-    overflow: hidden;
-}
-
-#portfolio .title h2
-{
-    font-size: 1.2em;
-    color: #FFF;
-}
-
-#portfolio .byline
-{
-    font-size: 1em;
-    color: #EEA7C1;
-}
-
-#column1,
-#column2,
-#column3,
-#column4
-{
-    width: 282px;
-}
-
-#column1,
-#column2
-{
-    float: left;
-    margin-right: 24px;
-}
-
-#column3
-{
-    float: left;
-}
-
-#column4
-{
-    float: right;
-}
-
-/*********************************************************************************/
-/* Button Style                                                                  */
-/*********************************************************************************/
-
-.button
-{
-    display: inline-block;
-    margin-top: 1.5em;
-    padding: 1.50em 3em 1.50em 3em;
-    background: #16a085;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-weight: 400;
-    font-size: 0.90em;
-    color: #FFF;
-}
-
-.button:before
-{
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 20px;
-    text-align: center;
-    color: #FFF;
-}
-
-/*********************************************************************************/
-/* Footer                                                                        */
-/*********************************************************************************/
-
-#footer-wrapper
-{
-    overflow: hidden;
-    padding: 5em 0em;
-    background: #1E1B1A;
-}
-
-#footer
-{
-    color: #ADADAD;
-}
-
-#footer .title h2
-{
-    font-weight: 400;
-    font-size: 1.2em;
-    color: #FFF;
-}
-
-#footer .title
-{
-    border-color: #2D2926 !important;
-}
-
-#footer .style1 li
-{
-    border-color: #2D2926 !important;
-}
-
-#footer .style1 a
-{
-    font-size:1em;
-    color: #B1B1B1;
-}
-
-#box1
-{
-    float: left;
-    width: 354px;
-    margin-right: 24px;
-    padding-right: 30px;
-}
-
-#box2
-{
-    float: left;
-    width: 354px;
-    margin-left: 24px;
-    padding-right: 30px;
-}
-
-#box3
-{
-    float: right;
-    width: 344px;
-    padding-left: 40px;
+#header p {
+	font-weight: 400;
+	font-size: 20px;
 }
 
 
+/** CONTENT **/
+
+#welcome-wrapper {
+	width: 100%;
+	background: rgba(255,255,255,0.95);
+	text-align: center;
+}
+
+#welcome {
+	padding: 50px 0px;
+}
+
+#welcome h2 {
+	color: rgb(40,160,135);
+}
+
+#welcome p {
+	color: #4c4c4c;
+}
+
+/** FUNCTIONS HOME-PAGINA **/
+
+#functions-wrapper {
+	width: 100%;
+	background: rgba(51,51,51, 0.8);
+	color: white;
+	font-weight: 200;
+	text-align: center;
+}
+
+#functions {
+	padding: 50px 0px;	
+}
+
+.function-box {
+	float: left;
+	width: 33.333333%;
+	vertical-align: top;
+}
+
+.function {
+	margin: 10px;
+	/*background: rgba(255,255,255,0.1);*/
+}
+
+.function h3:before {
+	content: "";
+	display: block;
+	margin: 10px auto;
+	width: 50px;
+	height: 50px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.function-results h3:before {
+        background-image: url("#{resource['img/results.png']}");
+}
+
+.function-student h3:before {
+        background-image: url("#{resource['img/student.png']}");
+}
+
+.function-excel h3:before {
+        background-image: url("#{resource['img/excel.png']}");
+}
+
+/** FOOTER **/
+
+#footer {
+	position: fixed;
+	width: 100%;
+	left: 0;
+	bottom: 0;
+	z-index: -1;
+	padding: 30px 0px;
+	text-align: center;
+	text-transform: uppercase;
+	color: white;
+}
+
+#footer p {
+	font-size: 16px;
+	line-height: 20px;
+}
 
 
+/** MEDIA QUERIES **/
 
-
-
-
-
-
-
-
-
-
-
-
-
+@media screen and (max-width: 700px) {
+	.function-box {
+		width: 100%;
+	}
+	
+	.function-box:after {
+		content: "";
+		display: block;
+		margin: 20px auto;
+		width: 100px;
+		height: 1px;
+		background: white;
+	}
+}

@@ -3,107 +3,63 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Score tracker</title>
         <h:outputStylesheet library="css" name="style.css"  />
         <h:outputScript library="js" name="jquery-1.11.1.min.js" /> 
-        <h:outputScript library="js" name="script.js" />       
+        <h:outputScript library="js" name="main.js" />       
     </h:head>
     <h:body>
         <div id="wrapper">
             <div id="menu-wrapper">
                 <div id="menu" class="container">
                     <ul>
-                        <li class="current_page_item"><a href="#">Homepage</a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Portfolio</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li class="current"><a href="#">Home</a></li>
+                        <li><a href="#">Resultaten</a></li>
+                        <li><a href="#">Uploaden</a></li>
                     </ul>
                 </div>
-                <!-- end #menu --> 
-                <div id="header-wrapper">
-                    <div id="header" class="container">
-                        <div id="logo">
-                            <h1><a href="#">Score Tracker</a></h1>
-                            <p>Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a></p>
+            </div>
+            <div id="header-wrapper">
+                <div id="header">
+                    <h1>Score tracker</h1>
+                    <p>een Java project</p>
+                </div>
+            </div>
+            <div id="welcome-wrapper">
+                <div id="welcome" class="container">
+                    <h2>Welkom</h2>
+                    <p>My money's in that office, right? If she start giving me some bullshit about it ain't there, and we got to go someplace else and get it, I'm gonna shoot you in the head then and there. Then I'm gonna shoot that bitch in the kneecaps, find out where my goddamn money is. She gonna tell me too. Hey, look at me when I'm talking to you, motherfucker. You listen: we go in there, and that nigga Winston or anybody else is in there, you the first motherfucker to get shot. You understand? </p>
+
+                    <p>Now that we know who you are, I know who I am. I'm not a mistake! It all makes sense! In a comic, you know how you can tell who the arch-villain's going to be? He's the exact opposite of the hero. And most times they're friends, like you and me! I should've known way back when... You know why, David? Because of the kids. They called me Mr Glass. </p>
+
+                </div>
+            </div>
+            <div id="functions-wrapper">
+                <div id="functions" class="container clearfix">
+                    <h2>Functies</h2>
+                    <div class="function-box">
+                        <div class="function function-results">
+                            <h3>Alle resultaten</h3>
+                            <p>Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?</p>
+                        </div>
+                    </div>
+                    <div class="function-box">
+                        <div class="function function-student">
+                            <h3>Overzicht per student</h3>
+                            <p>Do you see a little Asian child with a blank expression on his face sitting outside on a mechanical helicopter that shakes when you put quarters in it? No? Well, that's what you see at a toy store. </p>
+                        </div>
+                    </div>
+                    <div class="function-box">
+                        <div class="function function-excel">
+                            <h3>Compatibel met Excel</h3>
+                            <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? </p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="banner"></div>
-            <div id="page" class="container">
-                <div id="content">
-                    <div class="title">
-                        <h2>Integer sit amet aliquet</h2>
-                        <span class="byline">Phasellus nec erat sit amet nibh pellentesque congue</span> </div>
-                    <p>This is <strong>GrassyGreen</strong>, a free, fully standards-compliant CSS template designed by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>. The photos in this template are from <a href="http://fotogrph.com/"> Fotogrph</a>. This free template is released under the <a href="http://templated.co/license">Creative Commons Attribution</a> license, so you're pretty much free to do whatever you want with it (even use it commercially) provided you give us credit for it. Have fun :) </p>
-                    <p>Consectetuer adipiscing elit. Nam pede erat, porta eu, lobortis eget, tempus et, tellus. Etiam neque. Vivamus consequat lorem at nisl. Nullam non wisi a sem semper eleifend. Donec mattis libero eget urna. Duis pretium velit ac mauris. Proin eu wisi suscipit nulla suscipit interdum. Aenean lectus lorem, imperdiet at, ultrices eget, ornare et, wisi. Pellentesque adipiscing purus ac magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.  Nullam non wisi a sem semper eleifend. Donec mattis libero eget urna. </p>
-                </div>
-                <div id="sidebar">
-                    <div class="box2">
-                        <div class="title">
-                            <h2>Integer gravida</h2>
-                        </div>
-                        <ul class="style2">
-                            <li><a href="#">Amet turpis, feugiat et sit amet</a></li>
-                            <li><a href="#">Ornare in hendrerit in lectus</a></li>
-                            <li><a href="#">Semper mod quis eget mi dolore</a></li>
-                            <li><a href="#">Quam turpis feugiat sit dolor</a></li>
-                            <li><a href="#">Amet ornare in hendrerit in lectus</a></li>
-                            <li><a href="#">Quam turpis feugiat sit dolor</a></li>
-                            <li><a href="#">Consequat etiam lorem phasellus</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </div>
-
-
-        <div id="footer-wrapper">
-            <div id="footer" class="container">
-                <div id="box1">
-                    <div class="title">
-                        <h2>Latest Post</h2>
-                    </div>
-                    <ul class="style1">
-                        <li><a href="#">Semper mod quis eget mi dolore</a></li>
-                        <li><a href="#">Quam turpis feugiat sit dolor</a></li>
-                        <li><a href="#">Amet ornare in hendrerit in lectus</a></li>
-                        <li><a href="#">Consequat etiam lorem phasellus</a></li>
-                        <li><a href="#">Amet turpis, feugiat et sit amet</a></li>
-                        <li><a href="#">Semper mod quisturpis nisi</a></li>
-                    </ul>
-                </div>
-                <div id="box2">
-                    <div class="title">
-                        <h2>Popular Links</h2>
-                    </div>
-                    <ul class="style1">
-                        <li><a href="#">Semper mod quis eget mi dolore</a></li>
-                        <li><a href="#">Quam turpis feugiat sit dolor</a></li>
-                        <li><a href="#">Amet ornare in hendrerit in lectus</a></li>
-                        <li><a href="#">Consequat etiam lorem phasellus</a></li>
-                        <li><a href="#">Amet turpis, feugiat et sit amet</a></li>
-                        <li><a href="#">Semper mod quisturpis nisi</a></li>
-                    </ul>
-                </div>
-                <div id="box3">
-                    <div class="title">
-                        <h2>Follow Us</h2>
-                    </div>
-                    <p>Proin eu wisi suscipit nulla suscipit interdum. Aenean lectus lorem, imperdiet magna.</p>
-                    <ul class="contact">
-                        <li><a href="#" class="icon icon-twitter"><span>Twitter</span></a></li>
-                        <li><a href="#" class="icon icon-facebook"><span>Facebook</span></a></li>
-                        <li><a href="#" class="icon icon-dribbble"><span>Dribbble</span></a></li>
-                        <li><a href="#" class="icon icon-tumblr"><span>Tumblr</span></a></li>
-                        <li><a href="#" class="icon icon-rss"><span>Pinterest</span></a></li>
-                    </ul>
-                    <a href="#" class="button">Read More</a> </div>
-            </div>
-        </div>
-        <div id="copyright" class="container">
-            <p>&copy; Score Tracker. All rights reserved. | Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
+        <div id="footer">
+            <p>2014 &copy; Java project | Groep 5</p>
         </div>
     </h:body>
 </html>
