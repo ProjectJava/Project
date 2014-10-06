@@ -21,6 +21,8 @@ public class Student implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String studentnummer, naam, emailadres;
+    private int klasID;
 
     public Long getId() {
         return id;
@@ -29,6 +31,40 @@ public class Student implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getStudentnummer() {
+        return studentnummer;
+    }
+
+    public void setStudentnummer(String studentnummer) {
+        this.studentnummer = studentnummer;
+    }
+
+    public String getNaam() {
+        return naam;
+    }
+
+    public void setNaam(String naam) {
+        this.naam = naam;
+    }
+
+    public String getEmailadres() {
+        return emailadres;
+    }
+
+    public void setEmailadres(String emailadres) {
+        this.emailadres = emailadres;
+    }
+
+    public int getKlasID() {
+        return klasID;
+    }
+
+    public void setKlasID(int klasID) {
+        this.klasID = klasID;
+    }
+    
+    
 
     @Override
     public int hashCode() {

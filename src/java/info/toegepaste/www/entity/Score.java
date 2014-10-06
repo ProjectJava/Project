@@ -21,6 +21,9 @@ public class Score implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private int testID;
+    private int studentID;
+    private double punt;
 
     public Long getId() {
         return id;
@@ -29,6 +32,31 @@ public class Score implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public int getTestID() {
+        return testID;
+    }
+
+    public void setTestID(int testID) {
+        this.testID = testID;
+    }
+
+    public int getStudentID() {
+        return studentID;
+    }
+
+    public void setStudentID(int studentID) {
+        this.studentID = studentID;
+    }
+
+    public double getPunt() {
+        return punt;
+    }
+
+    public void setPunt(double punt) {
+        this.punt = punt;
+    }
+    
 
     @Override
     public int hashCode() {

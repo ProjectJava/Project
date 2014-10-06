@@ -16,12 +16,14 @@ import javax.persistence.Id;
  * @author Gert-jan
  */
 @Entity
-public class Vak implements Serializable {
+public class Test implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String naam;
+    private double maxScore;
+    private int klasID, vakID;
 
     public Long getId() {
         return id;
@@ -38,6 +40,30 @@ public class Vak implements Serializable {
     public void setNaam(String naam) {
         this.naam = naam;
     }
+
+    public double getMaxScore() {
+        return maxScore;
+    }
+
+    public void setMaxScore(double maxScore) {
+        this.maxScore = maxScore;
+    }
+
+    public int getKlasID() {
+        return klasID;
+    }
+
+    public void setKlasID(int klasID) {
+        this.klasID = klasID;
+    }
+
+    public int getVakID() {
+        return vakID;
+    }
+
+    public void setVakID(int vakID) {
+        this.vakID = vakID;
+    }
     
     
 
@@ -51,10 +77,10 @@ public class Vak implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Vak)) {
+        if (!(object instanceof Test)) {
             return false;
         }
-        Vak other = (Vak) object;
+        Test other = (Test) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -63,7 +89,7 @@ public class Vak implements Serializable {
 
     @Override
     public String toString() {
-        return "info.toegepaste.www.entity.Vak[ id=" + id + " ]";
+        return "info.toegepaste.www.entity.Test[ id=" + id + " ]";
     }
     
 }
