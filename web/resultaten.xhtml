@@ -6,7 +6,15 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        test
+        #{projectController.test}
+        <h:dataTable var="score" value="#{projectController.scores}">
+            <h:column>
+                <h:outputText value="#{score.id}"/>
+            </h:column>
+            <h:column>
+                <h:outputText value="#{score.punt}"/>
+            </h:column>
+        </h:dataTable>
     </h:body>
 </html>
 

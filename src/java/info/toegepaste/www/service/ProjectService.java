@@ -5,10 +5,14 @@
  */
 package info.toegepaste.www.service;
 
+import info.toegepaste.www.entity.Score;
+import java.util.List;
+
 /**
  *
  * @author Gert-jan
  */
 public interface ProjectService {
-    
+    public String test();
+    public List<Score> getAllScores();
 }
