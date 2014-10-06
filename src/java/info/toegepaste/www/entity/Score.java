@@ -10,13 +10,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Gert-jan
  */
+@NamedQueries({
+    @NamedQuery(
+            name = "Score.getAlleScores",
+            query = "SELECT s FROM Score s"
+    )
+})
 @Entity
 public class Score implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -56,7 +65,6 @@ public class Score implements Serializable {
     public void setPunt(double punt) {
         this.punt = punt;
     }
-    
 
     @Override
     public int hashCode() {
@@ -82,5 +90,5 @@ public class Score implements Serializable {
     public String toString() {
         return "info.toegepaste.www.entity.Score[ id=" + id + " ]";
     }
-    
+
 }

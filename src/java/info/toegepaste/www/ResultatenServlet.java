@@ -5,8 +5,16 @@
  */
 package info.toegepaste.www;
 
+import info.toegepaste.www.entity.Score;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,7 +40,21 @@ public class ResultatenServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        EntityManagerFactory emf = null;
         try (PrintWriter out = response.getWriter()) {
+            emf = Persistence.createEntityManagerFactory("groep5project");
+            
+                Long id = Long.parseLong(request.getParameter("id"));
+                EntityManager em = emf.createEntityManager();
+                EntityTransaction et = em.getTransaction();
+                et.begin();
+                Query q = em.createNamedQuery("Score.getAlleScores");
+                List<Score> scores = q.getResultList();
+                em.close();
+                request.setAttribute("scores", scores);
+                RequestDispatcher req = request.getRequestDispatcher("resultaten.xhtml");
+                req.forward(request, response);
+
             
         }
     }
