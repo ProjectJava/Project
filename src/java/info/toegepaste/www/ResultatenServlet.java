@@ -20,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -40,22 +41,28 @@ public class ResultatenServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         EntityManagerFactory emf = null;
-        try (PrintWriter out = response.getWriter()) {
+        try {
             emf = Persistence.createEntityManagerFactory("groep5project");
-            
-                Long id = Long.parseLong(request.getParameter("id"));
+                
+                Score score = new Score();
                 EntityManager em = emf.createEntityManager();
-                EntityTransaction et = em.getTransaction();
-                et.begin();
                 Query q = em.createNamedQuery("Score.getAlleScores");
                 List<Score> scores = q.getResultList();
                 em.close();
+
                 request.setAttribute("scores", scores);
-                RequestDispatcher req = request.getRequestDispatcher("resultaten.xhtml");
-                req.forward(request, response);
+
+                RequestDispatcher rd
+                        = request.getRequestDispatcher("resultaten.xhtml");
+                rd.forward(request, response);
 
             
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            out.close();
         }
     }
 
