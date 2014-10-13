@@ -23,7 +23,7 @@ public class ProjectController {
     @EJB
     private ProjectService projectService;
 
-    public String getTesta() {
+    public String getTest() {
         return projectService.test();
     }
 
