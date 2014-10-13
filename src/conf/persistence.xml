@@ -2,12 +2,11 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="groep5project" transaction-type="JTA">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <jta-data-source>groep5project</jta-data-source>
+    <jta-data-source>lesson</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="none"/>
       <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-      <property name="hibernate.default_schema" value="test"/>
       <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.driver"/>
       <property name="hibernate.transaction.factory_class" value="org.hibernate.transaction.JTATransactionFactory"/>
       <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
