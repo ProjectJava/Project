@@ -13,9 +13,9 @@
             <div id="menu-wrapper">
                 <div id="menu" class="container">
                     <ul>
-                        <li class="current"><a href="#">Home</a></li>
+                        <li><h:outputLink value="index.xhtml">Home</h:outputLink></li>
                         <li><a href="#">Resultaten</a></li>
-                        <li><h:outputLink value="upload.xhtml">Uploaden</h:outputLink></li>
+                        <li class="current"><h:outputLink value="upload.xhtml">Uploaden</h:outputLink></li>
                     </ul>
                 </div>
             </div>
@@ -32,6 +32,11 @@
 
                     <p>Now that we know who you are, I know who I am. I'm not a mistake! It all makes sense! In a comic, you know how you can tell who the arch-villain's going to be? He's the exact opposite of the hero. And most times they're friends, like you and me! I should've known way back when... You know why, David? Because of the kids. They called me Mr Glass. </p>
 
+                    <h:form enctype="multipart/form-data">
+                        <h:inputFile value="#{projectUpload.file}" />
+                        <h:commandButton value="Uploaden" action="#{projectUpload.upload}" />
+                        <h:messages />
+                    </h:form>
                 </div>
             </div>
             <div id="functions-wrapper">
