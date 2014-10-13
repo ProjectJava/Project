@@ -7,6 +7,7 @@ package info.toegepaste.www.service;
 
 import info.toegepaste.www.entity.Score;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,6 +30,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Score> getAllScores() {
         Query q = em.createQuery("SELECT s FROM Score s");
+        
         return (List<Score>) q.getResultList();
     }
 }
