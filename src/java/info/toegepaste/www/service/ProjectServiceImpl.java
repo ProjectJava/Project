@@ -6,6 +6,7 @@
 package info.toegepaste.www.service;
 
 import info.toegepaste.www.entity.Score;
+import info.toegepaste.www.entity.Test;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
@@ -32,5 +33,11 @@ public class ProjectServiceImpl implements ProjectService {
         Query q = em.createQuery("SELECT s FROM Score s");
         
         return (List<Score>) q.getResultList();
+    }
+    @Override
+    public List<Test> getAllTests(){
+        Query q = em.createQuery("SELECT t from Test t");
+        
+        return (List<Test>) q.getResultList();
     }
 }

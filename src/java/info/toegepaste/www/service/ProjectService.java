@@ -6,6 +6,7 @@
 package info.toegepaste.www.service;
 
 import info.toegepaste.www.entity.Score;
+import info.toegepaste.www.entity.Test;
 import java.util.List;
 
 /**
@@ -15,4 +16,5 @@ import java.util.List;
 public interface ProjectService {
     public String test();
     public List<Score> getAllScores();
+    public List<Test> getAllTests();
 }

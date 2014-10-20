@@ -1,21 +1,32 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        #{projectController.test}
-        <h:dataTable var="score" value="#{projectController.scores}">
-            <h:column>
-                <h:outputText value="#{score.id}"/>
-            </h:column>
-            <h:column>
-                <h:outputText value="#{score.punt}"/>
-                <h:outputText value="#{score.student.naam}"/>
-            </h:column>
-        </h:dataTable>
+        <h:form>
+            <h:selectOneMenu value="#{projectController.tests}">
+                <f:selectItems value="#{projectController.tests}" var="test" itemLabel="#{test.naam}" itemValue="#{test.id}" />
+
+            </h:selectOneMenu>
+            <h:commandButton value="Zoeken" action="#{projectController.init()}">
+                <f:ajax render="table"/>
+            </h:commandButton>
+            <h:dataTable id="table" border="2" var="score" value="#{projectController.scores}">
+                <h:column>
+                    <h:outputText value="#{score.id}"/>
+                </h:column>
+                <h:column>
+                    <h:outputText value="#{score.punt}"/>
+                </h:column>
+                <h:column>
+                    <h:outputText value="#{score.student.naam}"/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
     </h:body>
 </html>
 
