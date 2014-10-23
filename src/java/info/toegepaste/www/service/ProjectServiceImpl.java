@@ -121,10 +121,57 @@ public class ProjectServiceImpl implements ProjectService {
         
         return (List<Score>) q.getResultList();
     }
+    
+    @Override
+    public List<Score> getAllScoresByTest(int id) {
+        Query q = em.createQuery("SELECT s FROM Score s where s.test.id = :id");
+        q.setParameter("id", id);
+        
+        return (List<Score>) q.getResultList();
+    }
+    @Override
+    public List<Score> getAllScoresByVak(int id) {
+        Query q = em.createQuery("SELECT s FROM Score s where s.test.vak.id = :id");
+        q.setParameter("id", id);
+        
+        return (List<Score>) q.getResultList();
+    }
+    @Override
+    public List<Score> getAllScoresByKlas(int id) {
+        Query q = em.createQuery("SELECT s FROM Score s where s.student.klas.id = :id");
+        q.setParameter("id", id);
+        
+        return (List<Score>) q.getResultList();
+    }
+    @Override
+    public List<Score> getAllScoresByStudent(int id) {
+        Query q = em.createQuery("SELECT s FROM Score s where s.student.id = :id");
+        q.setParameter("id", id);
+        
+        return (List<Score>) q.getResultList();
+    }
     @Override
     public List<Test> getAllTests(){
         Query q = em.createQuery("SELECT t from Test t");
         
         return (List<Test>) q.getResultList();
+    }
+    @Override
+    public List<Vak> getAllVakken(){
+        Query q = em.createQuery("SELECT v from Vak v");
+        
+        return (List<Vak>) q.getResultList();
+    }
+    @Override
+    public List<Student> getAllStudenten(){
+        Query q = em.createQuery("SELECT s from Student s");
+        
+        return (List<Student>) q.getResultList();
+    }
+    @Override
+    public List<Klas> getAllKlassen(){
+        Query q = em.createQuery("SELECT k from Klas k");
+        
+        return (List<Klas>) q.getResultList();
     }
 }
