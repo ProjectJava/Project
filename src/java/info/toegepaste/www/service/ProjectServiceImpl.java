@@ -19,15 +19,19 @@ import java.awt.FileDialog;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 import javax.ejb.TransactionAttribute;
 import static javax.ejb.TransactionAttributeType.REQUIRES_NEW;
+import javax.faces.application.FacesMessage;
 import javax.servlet.http.Part;
 import javax.swing.JFrame;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 
 /**
  *
@@ -37,77 +41,73 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 public class ProjectServiceImpl implements ProjectService {
     @PersistenceContext
     private EntityManager em;
-    public ArrayList<String> getExcel() {
-        ArrayList<String> lijst = new ArrayList<String>();
-        try {
 
-            FileInputStream fileInputStream = new FileInputStream("C:\\Users\\Jeroen\\Desktop\\poi-test.xls");
-            HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
-            HSSFSheet worksheet = workbook.getSheet("POI Worksheet");
-            HSSFRow row1 = worksheet.getRow(0);
-            HSSFCell cellA1 = row1.getCell((short) 0);
-            String a1Val = cellA1.getStringCellValue();
-            HSSFCell cellB1 = row1.getCell((short) 1);
-            String b1Val = cellB1.getStringCellValue();
-            HSSFCell cellC1 = row1.getCell((short) 2);
-            String c1Val = cellC1.getStringCellValue();
-            HSSFCell cellD1 = row1.getCell((short) 3);
-            String d1Val = cellD1.getStringCellValue();
-
-            lijst.add(a1Val);
-            lijst.add(b1Val);
-            lijst.add(c1Val);
-            lijst.add(d1Val);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return lijst;
-    }
-
-    private static String getFilename(Part part) {
-        for (String cd : part.getHeader("content-disposition").split(";")) {
-            if (cd.trim().startsWith("filename")) {
-                String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
-                return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.  
-            }
-        }
-        return null;
-    }
     
-
-    public ArrayList<String> upload() {
-        Part testFile = null;
-        ArrayList<String> lijst = new ArrayList<String>();
+    public IngelezenFile getExcelScores(InputStream fs) {
+        ArrayList<String> lijstNr = new ArrayList<String>();
+        ArrayList<String> lijstScore = new ArrayList<String>();
+        IngelezenFile file = null;
+        //String fileContent;
+        //Part filePart;
         try {
 
-            FileInputStream fileInputStream = new FileInputStream(getFilename(testFile));
-            HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
-            HSSFSheet worksheet = workbook.getSheet("POI Worksheet");
+            //FileInputStream fileInputStream = new FileInputStream("C:\\Users\\Jeroen\\Desktop\\resultaten.xls");
+            HSSFWorkbook workbook = new HSSFWorkbook(fs);
+            HSSFSheet worksheet = workbook.getSheet("Blad1");
             HSSFRow row1 = worksheet.getRow(0);
-            HSSFCell cellA1 = row1.getCell((short) 0);
-            String a1Val = cellA1.getStringCellValue();
-            HSSFCell cellB1 = row1.getCell((short) 1);
-            String b1Val = cellB1.getStringCellValue();
-            HSSFCell cellC1 = row1.getCell((short) 2);
-            String c1Val = cellC1.getStringCellValue();
-            HSSFCell cellD1 = row1.getCell((short) 3);
-            String d1Val = cellD1.getStringCellValue();
 
-            lijst.add(a1Val);
-            lijst.add(b1Val);
-            lijst.add(c1Val);
-            lijst.add(d1Val);
+            HSSFCell cel = worksheet.getRow(3).getCell((short) 1);
+            cel.setCellType(Cell.CELL_TYPE_STRING);
+
+            String klas = worksheet.getRow(0).getCell((short) 1).getStringCellValue();
+            String vak = worksheet.getRow(1).getCell((short) 1).getStringCellValue();
+            String test = worksheet.getRow(2).getCell((short) 1).getStringCellValue();
+            String totaalPunt = cel.getStringCellValue();
+
+            int i = 6;
+            //while (worksheet.getRow(i).getCell((short) 2) == null || worksheet.getRow(i).getCell((short) 2).getCellType() == Cell.CELL_TYPE_BLANK) {
+            while (i < 9) {
+                HSSFCell scorecel = worksheet.getRow(i).getCell((short) 2);
+                scorecel.setCellType(Cell.CELL_TYPE_STRING);
+                HSSFCell nrcel = worksheet.getRow(i).getCell((short) 0);
+                nrcel.setCellType(Cell.CELL_TYPE_STRING);
+                lijstNr.add(worksheet.getRow(i).getCell((short) 0).getStringCellValue());
+                lijstScore.add(worksheet.getRow(i).getCell((short) 2).getStringCellValue());
+                i++;
+            }
+
+            //fileContent = new Scanner(filePart.getInputStream()).useDelimiter("\\A").next();
+            //List<IngelezenFile> list = new ArrayList<IngelezenFile>();
+            file = new IngelezenFile(klas, vak, test, Integer.parseInt(totaalPunt), lijstNr, lijstScore);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return lijst;
+        //return lijst;
 
+        // upload scores
+        /*Klas klas = new Klas();
+        klas.setGroep("3TIA1");
+        /*em.find(klas.getGroep(), "3TIA1");
+        if (u != null) {
+            return null;
+        }*/
+
+        //Now saving...
+        /*
+        em.getTransaction().begin();
+        em.persist(klas); //em.merge(u); for updates
+        em.getTransaction().commit();
+        em.close();*/
+
+        //return u;
+        /*em.createNativeQuery("INSERT INTO Score (testId, studentId, punt) VALUES(1, 1, ?)")
+         .setParameter(1, '1')
+         .executeUpdate();*/
+
+        return file;
     }
         
     @Override

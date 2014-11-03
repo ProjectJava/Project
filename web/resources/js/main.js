@@ -1,5 +1,5 @@
 $(function () {
-	//SMOOTH SCROLLING
+    //SMOOTH SCROLLING
     $('a[href*=#]:not([href=#])').click(function () {
         if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
             var target = $(this.hash);
@@ -15,7 +15,7 @@ $(function () {
         }
     });
 
-	//MENU AANPASSEN BIJ SCROLLEN
+    //MENU AANPASSEN BIJ SCROLLEN
     $(window).scroll(function () {
         if ($(window).scrollTop() >= 280) {
             $('#menu').addClass("menu-resize");

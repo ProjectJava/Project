@@ -5,12 +5,14 @@
  */
 package info.toegepaste.www.service;
 
+import info.toegepaste.www.entity.IngelezenFile;
 import info.toegepaste.www.entity.Klas;
 import info.toegepaste.www.entity.Score;
 import info.toegepaste.www.entity.Student;
 import java.util.ArrayList;
 import info.toegepaste.www.entity.Test;
 import info.toegepaste.www.entity.Vak;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ import java.util.List;
  */
 public interface ProjectService {
     public String test();
-    public ArrayList<String> getExcel();
+    public IngelezenFile getExcelScores(InputStream fs);
     public List<Score> getAllScores();
     public List<Score> getAllScoresByTest(int id);
     public List<Score> getAllScoresByVak(int id);
