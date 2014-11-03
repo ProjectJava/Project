@@ -35,7 +35,7 @@
                     <p>Vak: #{projectUpload.ingelezenFile.vak}</p>
                     <p>Test: #{projectUpload.ingelezenFile.test}</p>
                     <p>Maximum: #{projectUpload.ingelezenFile.totaalScore}</p>
-                    <ul>
+                    <ul id="nostyle">
                         <c:forEach var="studentScore" items="#{projectUpload.ingelezenFile.studentenScore}">
                             <li>#{studentScore} </li>
                         </c:forEach>
