@@ -31,4 +31,6 @@ public interface ProjectService {
     public List<Vak> getAllVakken();
     public List<Student> getAllStudenten();
     public List<Klas> getAllKlassen();
+    
+    public void createPDF(List<Score> scores);
 }

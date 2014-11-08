@@ -5,6 +5,19 @@
  */
 package info.toegepaste.www.service;
 
+import com.itextpdf.text.Anchor;
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.Chapter;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.ListItem;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Section;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import info.toegepaste.www.entity.Score;
 import info.toegepaste.www.entity.Test;
 import java.util.List;
@@ -18,9 +31,12 @@ import info.toegepaste.www.entity.*;
 import java.awt.FileDialog;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.Scanner;
 import javax.ejb.TransactionAttribute;
 import static javax.ejb.TransactionAttributeType.REQUIRES_NEW;
@@ -39,10 +55,10 @@ import org.apache.poi.ss.usermodel.Cell;
  */
 @Stateless
 public class ProjectServiceImpl implements ProjectService {
+
     @PersistenceContext
     private EntityManager em;
 
-    
     public IngelezenFile getExcelScores(InputStream fs) {
         ArrayList<String> lijstNr = new ArrayList<String>();
         ArrayList<String> lijstNaam = new ArrayList<String>();
@@ -95,7 +111,7 @@ public class ProjectServiceImpl implements ProjectService {
         insertTest(file);
         return file;
     }
-    
+
     public void insertTest(IngelezenFile excelfile) {
         Query q = em.createNamedQuery("Vak.findByNaam");
         q.setParameter("naam", excelfile.getVak());
@@ -174,69 +190,140 @@ public class ProjectServiceImpl implements ProjectService {
             em.persist(score);
         }
     }
-        
+
+    public void createPDF(List<Score> scores) {
+        try {
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream("Test.pdf"));
+            document.open();
+//            addMetaData(document);
+//            addTitlePage(document);
+//            addContent(document);
+
+            // MetaData toevoegen
+            document.addTitle("Resulaten");
+            document.addAuthor("Score Tracker");
+            document.addCreator("Score Tracker");
+
+            // Titel toevoegen
+            Paragraph preface = new Paragraph();
+            preface.add(new Paragraph("Resultaten van de gekozen scores"));
+            addEmptyLine(preface, 2);
+            document.add(preface);
+
+            // Tabel toevoegen
+            PdfPTable table = new PdfPTable(3);
+
+            PdfPCell c1 = new PdfPCell(new Phrase("Student"));
+            c1.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table.addCell(c1);
+            
+            c1 = new PdfPCell(new Phrase("Vak"));
+            c1.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Test"));
+            c1.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Resultaat"));
+            c1.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table.addCell(c1);
+            table.setHeaderRows(1);
+
+            for (Iterator<Score> i = scores.iterator(); i.hasNext();) {
+                Score score = i.next();
+                
+                table.addCell(score.getStudent().getNaam());
+                table.addCell(score.getTest().getVak().getNaam());
+                table.addCell(score.getTest().getNaam());
+                table.addCell(score.getPunt() + " / " + score.getTest().getMaxScore());
+            }
+
+            document.add(table);
+
+            document.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Voor lijnen toe te voegen aan PDF
+    private static void addEmptyLine(Paragraph paragraph, int number) {
+        for (int i = 0; i < number; i++) {
+            paragraph.add(new Paragraph(" "));
+        }
+    }
+
     @Override
     public String test() {
         return "test";
     }
-    
+
     @Override
     public List<Score> getAllScores() {
         Query q = em.createQuery("SELECT s FROM Score s");
-        
+
         return (List<Score>) q.getResultList();
     }
-    
+
     @Override
     public List<Score> getAllScoresByTest(int id) {
         Query q = em.createQuery("SELECT s FROM Score s where s.test.id = :id");
         q.setParameter("id", id);
-        
+
         return (List<Score>) q.getResultList();
     }
+
     @Override
     public List<Score> getAllScoresByVak(int id) {
         Query q = em.createQuery("SELECT s FROM Score s where s.test.vak.id = :id");
         q.setParameter("id", id);
-        
+
         return (List<Score>) q.getResultList();
     }
+
     @Override
     public List<Score> getAllScoresByKlas(int id) {
         Query q = em.createQuery("SELECT s FROM Score s where s.student.klas.id = :id");
         q.setParameter("id", id);
-        
+
         return (List<Score>) q.getResultList();
     }
+
     @Override
     public List<Score> getAllScoresByStudent(int id) {
         Query q = em.createQuery("SELECT s FROM Score s where s.student.id = :id");
         q.setParameter("id", id);
-        
+
         return (List<Score>) q.getResultList();
     }
+
     @Override
-    public List<Test> getAllTests(){
+    public List<Test> getAllTests() {
         Query q = em.createQuery("SELECT t from Test t");
-        
+
         return (List<Test>) q.getResultList();
     }
+
     @Override
-    public List<Vak> getAllVakken(){
+    public List<Vak> getAllVakken() {
         Query q = em.createQuery("SELECT v from Vak v");
-        
+
         return (List<Vak>) q.getResultList();
     }
+
     @Override
-    public List<Student> getAllStudenten(){
+    public List<Student> getAllStudenten() {
         Query q = em.createQuery("SELECT s from Student s");
-        
+
         return (List<Student>) q.getResultList();
     }
+
     @Override
-    public List<Klas> getAllKlassen(){
+    public List<Klas> getAllKlassen() {
         Query q = em.createQuery("SELECT k from Klas k");
-        
+
         return (List<Klas>) q.getResultList();
     }
 }
