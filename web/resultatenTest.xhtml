@@ -90,9 +90,9 @@
 
                         </h:selectOneMenu>
 
-                        <h:dataTable id="tableTests" border="2" var="score" value="#{projectController.scores}">
+                        <h:dataTable id="tableTests" border="2" var="score" value="#{projectController.selectedDataList}">
                             <h:column>
-                                <h:selectBooleanCheckbox value="#{projectController.selectedIds[score.id]}" />
+                         
                             </h:column>
                             <h:column>
                                 <h:outputText value="#{score.punt}"/>
@@ -100,7 +100,8 @@
                             <h:column>
                                 <h:outputText value="#{score.student.naam}"/>
                             </h:column>
-                        </h:dataTable>                        
+                        </h:dataTable>
+                        <h:commandButton value="Get selected items" action="#{projectController.getSelectedItems}" />
                     </div>
                     <div id="klassen">
                         <h:selectOneMenu id="klass" class="klassen" value="#{projectController.selectedKlasId}">
@@ -109,9 +110,9 @@
                             <f:ajax event="change" render="tableKlassen" listener="#{projectController.getScoresByKlas()}" execute="klass"/>
 
                         </h:selectOneMenu>
-                        <h:dataTable id="tableKlassen" border="2" var="score" value="#{projectController.scores}">
+                        <h:dataTable id="tableKlassen" border="2" var="score" value="#{projectController.selectedDataList}">
                             <h:column>
-                                <h:selectBooleanCheckbox value="#{projectController.selectedIds[score.id]}" />
+                                <h:outputText value="#{score.id}"/>
                             </h:column>
                             <h:column>
                                 <h:outputText value="#{score.punt}"/>
@@ -128,9 +129,9 @@
                             <f:ajax event="change" render="tableVakken" listener="#{projectController.getScoresByVak()}" execute="vaks"/>
 
                         </h:selectOneMenu>
-                        <h:dataTable id="tableVakken" border="2" var="score" value="#{projectController.scores}">
+                        <h:dataTable id="tableVakken" border="2" var="score" value="#{projectController.selectedDataList}">
                             <h:column>
-                                <h:selectBooleanCheckbox value="#{projectController.selectedIds[score.id]}" />
+                                <h:outputText value="#{score.id}"/>
                             </h:column>
                             <h:column>
                                 <h:outputText value="#{score.punt}"/>
@@ -147,9 +148,9 @@
                             <f:ajax event="change" render="tableStudents" listener="#{projectController.getScoresByStudent()}" execute="students"/>
 
                         </h:selectOneMenu>
-                        <h:dataTable id="tableStudents" border="2" var="score" value="#{projectController.scores}">
+                        <h:dataTable id="tableStudents" border="2" var="score" value="#{projectController.selectedDataList}">
                             <h:column>
-                                <h:selectBooleanCheckbox value="#{projectController.selectedIds[score.id]}" />
+                                <h:outputText value="#{score.id}"/>
                             </h:column>
                             <h:column>
                                 <h:outputText value="#{score.punt}"/>
@@ -157,9 +158,8 @@
                             <h:column>
                                 <h:outputText value="#{score.student.naam}"/>
                             </h:column>
-                        </h:dataTable>                        
+                        </h:dataTable>
                     </div>
-                    <h:commandButton value="Maak pdf van geslecteerde resultaten" action="#{projectController.getSelectedItems}" />
                 </h:form>
             </div>
         </div>
