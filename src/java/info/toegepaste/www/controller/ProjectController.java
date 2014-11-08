@@ -11,7 +11,10 @@ import info.toegepaste.www.entity.Student;
 import info.toegepaste.www.entity.Test;
 import info.toegepaste.www.entity.Vak;
 import info.toegepaste.www.service.ProjectService;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -29,7 +32,44 @@ public class ProjectController {
     private List<Vak> vakken;
     private List<Student> studenten;
     private int selectedTestId, selectedStudentId, selectedKlasId, selectedVakId;
+    
+    // init van checkboxstuff
 
+    private Map<Long, Boolean> selectedScoreIds = new HashMap<Long, Boolean>();
+    private List<Score> selectedDataList;
+
+    // Actions van checkbox stuff
+
+    public String getSelectedItems() {
+
+        // Get selected items.
+        selectedDataList = new ArrayList<Score>();
+        for (Score dataItem : scores) {
+            if (selectedScoreIds.get(dataItem.getId()).booleanValue()) {
+                selectedDataList.add(dataItem);
+                selectedScoreIds.remove(dataItem.getId()); // Reset.
+            }
+        }
+
+        // Do your thing with the MyData items in List selectedDataList.
+        // MAAK HIER DE PDF AAN
+        // IN DE ARRAY SELECTEDDATALIST ZITTEN ALLE SCORES DIE GESELECTEERD ZIJN ALS SCORE OBJECT
+
+        return "resultatenTest"; // Navigation case. // Ga naar de pdf / ga naar een bedankt pagina / doe iets nuttig
+    }
+
+    // Getters -----------------------------------------------------------------------------------
+
+    public Map<Long, Boolean> getSelectedIds() {
+        return selectedScoreIds;
+    }
+
+    public List<Score> getSelectedDataList() {
+        return selectedDataList;
+    }
+    
+    // einde checkbox stuff
+    
     @EJB
     private ProjectService projectService;
 
