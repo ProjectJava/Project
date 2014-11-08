@@ -16,11 +16,11 @@ $(function () {
     });
 
     //MENU AANPASSEN BIJ SCROLLEN
-    $(window).scroll(function () {
-        if ($(window).scrollTop() >= 280) {
-            $('#menu').addClass("menu-resize");
-        } else {
-            $('#menu').removeClass("menu-resize");
-        }
-    });
+//    $(window).scroll(function () {
+//        if ($(window).scrollTop() >= 280) {
+//            $('#menu').addClass("menu-resize");
+//        } else {
+//            $('#menu').removeClass("menu-resize");
+//        }
+//    });
 });

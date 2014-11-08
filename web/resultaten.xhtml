@@ -14,30 +14,42 @@
                 $("#klassen").hide();
                 $("#vakken").hide();
                 $("#studenten").hide();
+                
+                function changeActive(link) {
+                    $("#testLink").removeClass("active");
+                    $("#klasLink").removeClass("active");
+                    $("#vakLink").removeClass("active");
+                    $("#studentLink").removeClass("active");
+                    $(link).addClass("active");
+                }
 
                 $("#testLink").click(function () {
                     $("#testen").show();
                     $("#klassen").hide();
                     $("#vakken").hide();
                     $("#studenten").hide();
+                    changeActive(this);
                 });
                 $("#klasLink").click(function () {
                     $("#testen").hide();
                     $("#klassen").show();
                     $("#vakken").hide();
                     $("#studenten").hide();
+                    changeActive(this);
                 });
                 $("#vakLink").click(function () {
                     $("#testen").hide();
                     $("#klassen").hide();
                     $("#vakken").show();
                     $("#studenten").hide();
+                    changeActive(this);
                 });
                 $("#studentLink").click(function () {
                     $("#testen").hide();
                     $("#klassen").hide();
                     $("#vakken").hide();
                     $("#studenten").show();
+                    changeActive(this);
                 });
             });
 
@@ -57,22 +69,20 @@
             <div id="header-wrapper">
                 <div id="header">
                     <h1>Score tracker</h1>
-                    <p>een Java project</p>
+                    <p>Resultaten</p>
                 </div>
             </div>
             <div id="welcome-wrapper">
                 <div id="welcome" class="container">
-                    <h2>Resultaten</h2>
                 </div>
                 <h:form>
                     <div id="groep">
-                        <a href="#" id="testLink">Testen</a>
-                        <a href="#" id="klasLink">Klassen</a>
-                        <a href="#" id="vakLink">Vakken</a>
-                        <a href="#" id="studentLink">Studenten</a>
+                        <a href="#" id="testLink" class="resultaat_keuze active">Testen</a>
+                        <a href="#" id="klasLink" class="resultaat_keuze">Klassen</a>
+                        <a href="#" id="vakLink" class="resultaat_keuze">Vakken</a>
+                        <a href="#" id="studentLink" class="resultaat_keuze">Studenten</a>
                     </div>
                     <div id="testen">
-                        <p>Testen</p>
                         <h:selectOneMenu id="tests" class="testen" value="#{projectController.selectedTestId}">
                             <f:selectItems value="#{projectController.tests}" var="test" itemLabel="#{test.naam}" itemValue="#{test.id}"  />
 
@@ -92,7 +102,6 @@
                         </h:dataTable>
                     </div>
                     <div id="klassen">
-                        <p>Klassen</p>
                         <h:selectOneMenu id="klass" class="klassen" value="#{projectController.selectedKlasId}">
                             <f:selectItems value="#{projectController.klassen}" var="klas" itemLabel="#{klas.groep}" itemValue="#{klas.id}"  />
 
@@ -112,7 +121,6 @@
                         </h:dataTable>
                     </div>
                     <div id="vakken">
-                        <p>Vakken</p>
                         <h:selectOneMenu id="vaks" value="#{projectController.selectedVakId}">
                             <f:selectItems value="#{projectController.vakken}" var="vak" itemLabel="#{vak.naam}" itemValue="#{vak.id}"  />
 
@@ -132,7 +140,6 @@
                         </h:dataTable>
                     </div>
                     <div id="studenten">
-                        <p>Studenten</p>
                         <h:selectOneMenu id="students" value="#{projectController.selectedStudentId}">
                             <f:selectItems value="#{projectController.studenten}" var="student" itemLabel="#{student.naam}" itemValue="#{student.id}"  />
 

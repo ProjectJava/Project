@@ -45,6 +45,7 @@ public class ProjectServiceImpl implements ProjectService {
     
     public IngelezenFile getExcelScores(InputStream fs) {
         ArrayList<String> lijstNr = new ArrayList<String>();
+        ArrayList<String> lijstNaam = new ArrayList<String>();
         ArrayList<String> lijstScore = new ArrayList<String>();
         IngelezenFile file = null;
         //String fileContent;
@@ -65,20 +66,23 @@ public class ProjectServiceImpl implements ProjectService {
             String totaalPunt = cel.getStringCellValue();
 
             int i = 6;
-            //while (worksheet.getRow(i).getCell((short) 2) == null || worksheet.getRow(i).getCell((short) 2).getCellType() == Cell.CELL_TYPE_BLANK) {
-            while (i < 9) {
+            // deze lus werkt niet als je regels weg doet uit een excel file, dus minder dan 3 studenten kan niet, meer wel!
+            while (worksheet.getRow(i) != null && worksheet.getRow(i).getCell((short) 1) != null) {
                 HSSFCell scorecel = worksheet.getRow(i).getCell((short) 2);
                 scorecel.setCellType(Cell.CELL_TYPE_STRING);
+                HSSFCell naamcel = worksheet.getRow(i).getCell((short) 1);
+                naamcel.setCellType(Cell.CELL_TYPE_STRING);
                 HSSFCell nrcel = worksheet.getRow(i).getCell((short) 0);
                 nrcel.setCellType(Cell.CELL_TYPE_STRING);
+
                 lijstNr.add(worksheet.getRow(i).getCell((short) 0).getStringCellValue());
+                lijstNaam.add(worksheet.getRow(i).getCell((short) 1).getStringCellValue());
                 lijstScore.add(worksheet.getRow(i).getCell((short) 2).getStringCellValue());
+
                 i++;
             }
 
-            //fileContent = new Scanner(filePart.getInputStream()).useDelimiter("\\A").next();
-            //List<IngelezenFile> list = new ArrayList<IngelezenFile>();
-            file = new IngelezenFile(klas, vak, test, Integer.parseInt(totaalPunt), lijstNr, lijstScore);
+            file = new IngelezenFile(klas, vak, test, Integer.parseInt(totaalPunt), lijstNr, lijstNaam, lijstScore);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -88,26 +92,87 @@ public class ProjectServiceImpl implements ProjectService {
         //return lijst;
 
         // upload scores
-        /*Klas klas = new Klas();
-        klas.setGroep("3TIA1");
-        /*em.find(klas.getGroep(), "3TIA1");
-        if (u != null) {
-            return null;
-        }*/
-
-        //Now saving...
-        /*
-        em.getTransaction().begin();
-        em.persist(klas); //em.merge(u); for updates
-        em.getTransaction().commit();
-        em.close();*/
-
-        //return u;
-        /*em.createNativeQuery("INSERT INTO Score (testId, studentId, punt) VALUES(1, 1, ?)")
-         .setParameter(1, '1')
-         .executeUpdate();*/
-
+        insertTest(file);
         return file;
+    }
+    
+    public void insertTest(IngelezenFile excelfile) {
+        Query q = em.createNamedQuery("Vak.findByNaam");
+        q.setParameter("naam", excelfile.getVak());
+        List results = q.getResultList();
+        Vak foundVak = null;
+        if (!results.isEmpty()) {
+            // ignores multiple results
+            foundVak = (Vak) results.get(0);
+        } else {
+            // toevoegen aan database omdat ik stoer ben
+            Vak newVak = new Vak();
+            newVak.setNaam(excelfile.vak);
+            foundVak = newVak;
+            em.persist(newVak);
+        }
+
+        Query q2 = em.createNamedQuery("Klas.findByGroep");
+        q2.setParameter("naam", excelfile.getKlas());
+        List results2 = q2.getResultList();
+        Klas foundKlas = null;
+        if (!results2.isEmpty()) {
+            // ignores multiple results
+            foundKlas = (Klas) results2.get(0);
+        } else {
+            // toevoegen aan database omdat ik stoer ben
+            Klas newKlas = new Klas();
+            newKlas.setGroep(excelfile.klas);
+            foundKlas = newKlas;
+            em.persist(newKlas);
+        }
+
+        int maxId = (Integer) em.createQuery("select max(t.id) from Test t").getSingleResult();
+
+        //test toevoegen
+        Test test = new Test();
+        test.setId(maxId + 1);
+        test.setMaxScore(excelfile.getTotaalScore());
+        test.setNaam(excelfile.getTest());
+        test.setVak(foundVak);
+        test.setKlas(foundKlas);
+        em.persist(test);
+
+        // overlopen scores + toevoegen db
+        for (int i = 0; i < excelfile.studentenNr.size(); i++) {
+            Score score = new Score();
+            int maxScoreId = (Integer) em.createQuery("select max(s.id) from Score s").getSingleResult();
+            score.setId(maxScoreId + 1);
+
+            Query q3 = em.createNamedQuery("Student.findByNr");
+            q3.setParameter("nr", excelfile.studentenNr.get(i));
+            List results3 = q3.getResultList();
+            Student foundStudent = null;
+            if (!results3.isEmpty()) {
+                // ignores multiple results
+                foundStudent = (Student) results3.get(0);
+
+                // set student hier omdat als de student nog niet zou bestaan anders error
+                score.setStudent(foundStudent);
+            } else {
+                // toevoegen aan database omdat ik stoer ben
+                Student newStudent = new Student();
+
+                newStudent.setStudentnummer(excelfile.studentenNr.get(i));
+                newStudent.setNaam(excelfile.studentenNaam.get(i));
+                newStudent.setKlas(foundKlas);
+                newStudent.setEmailadres(excelfile.studentenNr.get(i) + "@student.be");
+                em.persist(newStudent);
+
+                // set student hier omdat als de student nog niet zou bestaan anders error
+                score.setStudent(newStudent);
+            }
+
+            score.setPunt(Double.parseDouble(excelfile.studentenScore.get(i)));
+            score.setTest(test);
+
+            em.persist(score);
+        }
     }
         
     @Override

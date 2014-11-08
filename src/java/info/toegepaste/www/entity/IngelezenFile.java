@@ -22,15 +22,17 @@ public class IngelezenFile {
     public String klas, vak, test;
     public int totaalScore;
     public List<String> studentenNr = new ArrayList<String>();    
-    public List<String> studentenScore = new ArrayList<String>();
+    public List<String> studentenScore = new ArrayList<String>();   
+    public List<String> studentenNaam = new ArrayList<String>();
 
-    public IngelezenFile(String klas, String vak, String test, int totaalScore, List<String>studentenNr, List<String>studentenScore) {
+    public IngelezenFile(String klas, String vak, String test, int totaalScore, List<String>studentenNr, List<String>studentenNaam, List<String>studentenScore) {
         this.klas = klas;
         this.vak = vak;
         this.test = test;
         this.totaalScore = totaalScore;
         this.studentenNr = studentenNr;
         this.studentenScore = studentenScore;
+        this.studentenNaam = studentenNaam;
     }
 
     public String getKlas() {
@@ -79,6 +81,14 @@ public class IngelezenFile {
 
     public void setStudentenScore(List<String> studentenScore) {
         this.studentenScore = studentenScore;
+    }
+    
+     public List<String> getStudentenNaam() {
+        return studentenNaam;
+    }
+
+    public void setStudentenNaam(List<String> studentenNaam) {
+        this.studentenNaam = studentenNaam;
     }
 
 }

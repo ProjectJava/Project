@@ -68,8 +68,9 @@ p {
 }
 
 #menu {
-	height: 100px;
-	transition: .3s;
+	/*height: 100px;*/
+        height: 50px;
+/*	transition: .3s;*/
 }
 
 #menu ul {
@@ -90,13 +91,15 @@ p {
 #menu a {
 	text-decoration: none;
 	display: block;
-	padding: 0px 40px;
+/*	padding: 0px 40px;*/
 	text-align: center;
 	text-transform: uppercase;
-	line-height: 100px;
+/*	line-height: 100px;*/
 	border: none;
 	color: white;
-	transition: .3s;
+/*	transition: .3s;*/
+	padding: 0px 20px !important;
+	line-height: 50px !important;
 }
 
 #menu a:hover {
@@ -108,20 +111,19 @@ p {
 	text-decoration: none;
 }
 
-.menu-resize {
+/*.menu-resize {
 	height: 50px !important;
 }
 
 .menu-resize a {
 	padding: 0px 20px !important;
 	line-height: 50px !important;
-}
+}*/
 
 /** HEADER **/
 
 #header-wrapper {
 	width: 100%;
-	height: 350px;
 	background: rgba(51,51,51, 0.8);
 	color: white;
 	text-transform: uppercase;
@@ -130,7 +132,7 @@ p {
 }
 
 #header {
-	padding-top: 187px;
+        padding: 100px 0px 50px 0px;
 }
 
 #header p {
@@ -223,6 +225,26 @@ p {
 #footer p {
 	font-size: 16px;
 	line-height: 20px;
+}
+
+
+/* RESULTATEN */
+
+.resultaat_keuze {
+    display: inline-block;
+    text-transform: uppercase;
+    background: white;
+    border-bottom: 1px solid #4c4c4c;
+    text-decoration: none;
+    color: black;
+    padding: 5px 20px;
+    min-width: 100px;
+    box-shadow: 0px 0px 2px lightgrey;
+}
+
+.resultaat_keuze.active {
+    color: rgb(40,160,135);
+    border-bottom: 1px solid rgb(40,160,135);
 }
 
 
