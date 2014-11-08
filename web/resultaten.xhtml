@@ -160,6 +160,8 @@
                         </h:dataTable>                        
                     </div>
                     <h:commandButton value="Maak pdf van geslecteerde resultaten" action="#{projectController.getSelectedItems}" />
+                    
+                    <h:commandButton value="PDF met alle scores?" action="#{projectPDF.PDF()}" />
                 </h:form>
             </div>
         </div>

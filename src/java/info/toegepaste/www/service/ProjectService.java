@@ -12,6 +12,7 @@ import info.toegepaste.www.entity.Student;
 import java.util.ArrayList;
 import info.toegepaste.www.entity.Test;
 import info.toegepaste.www.entity.Vak;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -32,5 +33,7 @@ public interface ProjectService {
     public List<Student> getAllStudenten();
     public List<Klas> getAllKlassen();
     
-    public void createPDF(List<Score> scores);
+    public byte[] createPDF(List<Score> scores);
+    public void extractDocLevelAttachments(String filename) throws IOException;
+    public void createPDFje(List<Score> scores);
 }

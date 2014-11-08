@@ -15,9 +15,15 @@ import com.itextpdf.text.ListItem;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Section;
+import com.itextpdf.text.pdf.PRStream;
+import com.itextpdf.text.pdf.PdfArray;
+import com.itextpdf.text.pdf.PdfDictionary;
+import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
+import static info.toegepaste.www.controller.ProjectController.PATH;
 import info.toegepaste.www.entity.Score;
 import info.toegepaste.www.entity.Test;
 import java.util.List;
@@ -29,6 +35,7 @@ import javax.persistence.Query;
 
 import info.toegepaste.www.entity.*;
 import java.awt.FileDialog;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -191,14 +198,11 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
-    public void createPDF(List<Score> scores) {
+    public void createPDFje(List<Score> scores) {
         try {
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream("Test.pdf"));
             document.open();
-//            addMetaData(document);
-//            addTitlePage(document);
-//            addContent(document);
 
             // MetaData toevoegen
             document.addTitle("Resulaten");
@@ -247,7 +251,89 @@ public class ProjectServiceImpl implements ProjectService {
             e.printStackTrace();
         }
     }
+    
+    public byte[] createPDF(List<Score> scores) {
+        try {
+            Document document = new Document();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PdfWriter writer = PdfWriter.getInstance(document, baos);
+            document.open();
 
+            // MetaData toevoegen
+            document.addTitle("Resulaten");
+            document.addAuthor("Score Tracker");
+            document.addCreator("Score Tracker");
+
+            // Titel toevoegen
+            Paragraph preface = new Paragraph();
+            preface.add(new Paragraph("Resultaten van de gekozen scores"));
+            addEmptyLine(preface, 2);
+            document.add(preface);
+
+            // Tabel toevoegen
+            PdfPTable table = new PdfPTable(3);
+
+            PdfPCell c1 = new PdfPCell(new Phrase("Student"));
+            c1.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Vak"));
+            c1.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Test"));
+            c1.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Resultaat"));
+            c1.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table.addCell(c1);
+            table.setHeaderRows(1);
+
+            for (Iterator<Score> i = scores.iterator(); i.hasNext();) {
+                Score score = i.next();
+
+                table.addCell(score.getStudent().getNaam());
+                table.addCell(score.getTest().getVak().getNaam());
+                table.addCell(score.getTest().getNaam());
+                table.addCell(score.getPunt() + " / " + score.getTest().getMaxScore());
+            }
+
+            document.add(table);
+
+            document.close();
+            return baos.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void extractDocLevelAttachments(String filename) throws IOException {
+        PdfReader reader = new PdfReader(filename);
+        PdfDictionary root = reader.getCatalog();
+        PdfDictionary documentnames = root.getAsDict(PdfName.NAMES);
+        PdfDictionary embeddedfiles = documentnames.getAsDict(PdfName.EMBEDDEDFILES);
+        PdfArray filespecs = embeddedfiles.getAsArray(PdfName.NAMES);
+        PdfDictionary filespec;
+        PdfDictionary refs;
+        FileOutputStream fos;
+        PRStream stream;
+        for (int i = 0; i < filespecs.size(); ) {
+          filespecs.getAsString(i++);
+          filespec = filespecs.getAsDict(i++);
+          refs = filespec.getAsDict(PdfName.EF);
+          for (PdfName key : refs.getKeys()) {
+            fos = new FileOutputStream(String.format(PATH, filespec.getAsString(key).toString()));
+            stream = (PRStream) PdfReader.getPdfObject(refs.getAsIndirectObject(key));
+            fos.write(PdfReader.getStreamBytes(stream));
+            fos.flush();
+            fos.close();
+          }
+        }
+        reader.close();
+    }
+    
     // Voor lijnen toe te voegen aan PDF
     private static void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
