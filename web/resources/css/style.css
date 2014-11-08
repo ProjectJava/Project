@@ -227,6 +227,10 @@ p {
 	line-height: 20px;
 }
 
+#nostyle{
+    list-style: none;
+}
+
 
 /* RESULTATEN */
 
