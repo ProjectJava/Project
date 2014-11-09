@@ -51,7 +51,7 @@ public class ProjectController {
     public static final String RESULT = String.format(PATH, FILENAME);
 
     // Actions van checkbox stuff
-    public String getSelectedItems() throws FileNotFoundException, IOException {
+    public void getSelectedItems() throws FileNotFoundException, IOException {
 
         // Get selected items.
         selectedDataList = new ArrayList<Score>();
@@ -65,9 +65,9 @@ public class ProjectController {
         // Do your thing with the MyData items in List selectedDataList.
         // MAAK HIER DE PDF AAN
         // IN DE ARRAY SELECTEDDATALIST ZITTEN ALLE SCORES DIE GESELECTEERD ZIJN ALS SCORE OBJECT
-        projectService.createPDF(selectedDataList);
+        projectService.createPDFje(selectedDataList);
 
-        return "resultatenTest"; // Navigation case. // Ga naar de pdf / ga naar een bedankt pagina / doe iets nuttig
+        //return "resultatenTest"; // Navigation case. // Ga naar de pdf / ga naar een bedankt pagina / doe iets nuttig
     }
 
     // Getters -----------------------------------------------------------------------------------

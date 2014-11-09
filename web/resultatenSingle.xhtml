@@ -16,7 +16,8 @@
                 <div id="menu" class="container">
                     <ul>
                         <li><h:outputLink value="index.xhtml">Home</h:outputLink></li>
-                        <li class="current"><h:outputLink value="resultaten.xhtml">Resultaten</h:outputLink></li>
+                        <li><h:outputLink value="resultatenEnkel.xhtml">Resultaten per test</h:outputLink></li>
+                        <li class="current"><h:outputLink value="resultatenSingle.xhtml">Resultaten filteren</h:outputLink></li>
                         <li><h:outputLink value="upload.xhtml">Uploaden</h:outputLink></li>
                     </ul>
                 </div>
@@ -29,41 +30,61 @@
             </div>
             <div id="welcome-wrapper">
                 <div id="welcome" class="container">
-                </div>
-                <h:form>   
+                    <center>
+                        <h:form>   
 
-                    <h:selectOneMenu id="klass" class="klassen" value="#{projectController.selectedKlasId}">
-                        <f:selectItem itemLabel="Selecteer klas" itemValue="0"/>
-                        <f:selectItems value="#{projectController.klassen}" var="klas" itemLabel="#{klas.groep}" itemValue="#{klas.id}"  />
-                        <f:ajax event="change" render="tableTests" listener="#{projectController.getScoresByKlas()}" execute="klass"/>
-                    </h:selectOneMenu>                    
+                            <h:selectOneMenu id="klass" class="klassen" value="#{projectController.selectedKlasId}">
+                                <f:selectItem itemLabel="Selecteer klas" itemValue="0"/>
+                                <f:selectItems value="#{projectController.klassen}" var="klas" itemLabel="#{klas.groep}" itemValue="#{klas.id}"  />
+                                <f:ajax event="change" render="tableTests" listener="#{projectController.getScoresByKlas()}" execute="klass"/>
+                            </h:selectOneMenu>                    
 
-                    <h:selectOneMenu id="vaks" value="#{projectController.selectedVakId}">
-                        <f:selectItem itemLabel="Selecteer vak" itemValue="0"/>
-                        <f:selectItems value="#{projectController.vakken}" var="vak" itemLabel="#{vak.naam}" itemValue="#{vak.id}"  />
-                        <f:ajax event="change" render="tableTests" listener="#{projectController.getScoresByVak()}" execute="vaks"/>
-                    </h:selectOneMenu>                    
+                            <h:selectOneMenu id="vaks" value="#{projectController.selectedVakId}">
+                                <f:selectItem itemLabel="Selecteer vak" itemValue="0"/>
+                                <f:selectItems value="#{projectController.vakken}" var="vak" itemLabel="#{vak.naam}" itemValue="#{vak.id}"  />
+                                <f:ajax event="change" render="tableTests" listener="#{projectController.getScoresByVak()}" execute="vaks"/>
+                            </h:selectOneMenu>                    
 
-                    <h:selectOneMenu id="tests" class="testen" value="#{projectController.selectedTestId}">
-                        <f:selectItem itemLabel="Selecteer vak" itemValue="0"/>
-                        <f:selectItems value="#{projectController.tests}" var="test" itemLabel="#{test.naam}" itemValue="#{test.id}"  />
-                        <f:ajax event="change" render="tableTests" listener="#{projectController.getScoresByTest()}" execute="tests"/>
-                    </h:selectOneMenu>
+                            <h:selectOneMenu id="tests" class="testen" value="#{projectController.selectedTestId}">
+                                <f:selectItem itemLabel="Selecteer vak" itemValue="0"/>
+                                <f:selectItems value="#{projectController.tests}" var="test" itemLabel="#{test.naam}" itemValue="#{test.id}"  />
+                                <f:ajax event="change" render="tableTests" listener="#{projectController.getScoresByTest()}" execute="tests"/>
+                            </h:selectOneMenu>
+                            <br /><br />
+                            <h:dataTable id="tableTests" border="2" var="score" value="#{projectController.scores}">
+                                <h:column>
+                                    <f:facet name="header">Kies</f:facet>
+                                    <h:selectBooleanCheckbox value="#{projectController.selectedIds[score.id]}" id="boxs">                                 
+                                    </h:selectBooleanCheckbox>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Klas</f:facet>
+                                    <h:outputText value="#{score.test.klas.groep}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Vak</f:facet>
+                                    <h:outputText value="#{score.test.vak.naam}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Test</f:facet>
+                                    <h:outputText value="#{score.test.naam}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Score</f:facet>
+                                    <h:outputText value="#{score.punt}/#{score.test.maxScore}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Student</f:facet>
+                                    <h:outputText value="#{score.student.naam}"/>
+                                </h:column>
+                            </h:dataTable>  
+                            <br />
+                            <br />
 
-                    <h:dataTable id="tableTests" border="2" var="score" value="#{projectController.scores}">
-                        <h:column>
-                            <h:selectBooleanCheckbox value="#{projectController.selectedIds[score.id]}" />
-                        </h:column>
-                        <h:column>
-                            <h:outputText value="#{score.punt}"/>
-                        </h:column>
-                        <h:column>
-                            <h:outputText value="#{score.student.naam}"/>
-                        </h:column>
-                    </h:dataTable>  
+                            <h:commandButton value="Maak pdf van geslecteerde resultaten" action="#{projectController.getSelectedItems}" />
 
-                    <h:commandButton value="Maak pdf van geslecteerde resultaten" action="#{projectController.getSelectedItems}" />
-                </h:form>
+                            <h:commandButton value="Maak een pdf met alle scores" action="#{projectPDF.PDF()}" />
+                        </h:form></center></div>
             </div>
         </div>
     </h:body>
