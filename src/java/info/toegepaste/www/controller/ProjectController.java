@@ -31,6 +31,9 @@ public class ProjectController {
 
     @EJB
     private ProjectService projectService;
+    
+    // voor ajax
+    private int gekozenKlas, gekozenVak, gekozenTest;
 
     private List<Score> scores;
     private List<Test> tests;
@@ -188,6 +191,52 @@ public class ProjectController {
             scores = projectService.getAllScores();
         }
     }
+    
+    // ajax scores dropdown invullen
+     public void vakkenOphalen(){        
+        Klas klas = projectService.getKlasById(gekozenKlas);       
+        vakken = projectService.getVakkenByKlas(klas);
+    }
+    
+    public void testenOphalen(){
+        Vak vak = projectService.getVakById(gekozenVak);
+        // klas is hier ook nodig, anders krijg je alle testen van een bepaald vak
+        System.out.println("Vaknaam: " + vak.getNaam() + " + KlasId = " + gekozenKlas + ", functie: " + getGekozenKlas());
+        // Als ik hier gekozenKlas variable wil gebruiken is die altijd 0. Weet niet hoe op te lossen!
+        Klas klas = projectService.getKlasById(2251);         
+        tests = projectService.getTestenByVak(vak, klas);
+    }
+    
+    public void scoresOphalen(){
+        Test test = projectService.getTestById(gekozenTest);
+        scores = projectService.getScoresByTest(test);
+    }
+    
+    public int getGekozenKlas() {
+        return gekozenKlas;
+    }
+
+    public void setGekozenKlas(int gekozenKlas) {
+        this.gekozenKlas = gekozenKlas;
+    }
+    
+    public int getGekozenVak() {
+        return gekozenVak;
+    }
+
+    public void setGekozenVak(int gekozenVak) {
+        this.gekozenVak = gekozenVak;
+    }
+    
+    public int getGekozenTest() {
+        return gekozenTest;
+    }
+
+    public void setGekozenTest(int gekozenTest) {
+        this.gekozenTest = gekozenTest;
+    }
+    
+    // einde ajax stuff
 
     @PostConstruct
     public void init() {

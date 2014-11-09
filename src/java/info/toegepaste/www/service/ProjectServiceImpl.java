@@ -444,4 +444,49 @@ public class ProjectServiceImpl implements ProjectService {
     public void extractDocLevelAttachments(String filename) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    // voor ajax
+    @Override
+    public List<Vak> getVakkenByKlas(Klas klas){
+        Query q = em.createNamedQuery("Vak.findByKlas");
+        q.setParameter("klas", klas);
+        return (List<Vak>) q.getResultList();
+    }
+    
+    @Override
+    public List<Test> getTestenByVak(Vak vak, Klas klas){
+        Query q = em.createNamedQuery("Test.findByVak");
+         System.out.println("Klas:" + klas.getGroep() + " + Vaknaam: " + vak.getNaam());
+        q.setParameter("vak", vak);
+        q.setParameter("klas", klas);
+        return (List<Test>) q.getResultList();
+    }
+    
+    @Override
+    public Klas getKlasById(int klasId){
+        Query q = em.createNamedQuery("Klas.findById");
+        q.setParameter("id", klasId);
+        return (Klas) q.getSingleResult();
+    }
+    
+    @Override
+    public Vak getVakById(int vakId){
+        Query q = em.createNamedQuery("Vak.findById");
+        q.setParameter("id", vakId);
+        return (Vak) q.getSingleResult();
+    }
+    
+    @Override
+    public Test getTestById(int testId){
+        Query q = em.createNamedQuery("Test.findById");
+        q.setParameter("id", testId);
+        return (Test) q.getSingleResult();
+    }
+    
+    @Override
+    public List<Score> getScoresByTest(Test test){
+        Query q = em.createNamedQuery("Score.findByTest");
+        q.setParameter("test", test);
+        return (List<Score>) q.getResultList();
+    }
 }

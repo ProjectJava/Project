@@ -36,4 +36,12 @@ public interface ProjectService {
     public void createPDF(List<Score> scores);
     public void extractDocLevelAttachments(String filename) throws IOException;
     public void createPDFje(List<Score> scores);
+    
+    // ajax 
+    public Klas getKlasById(int klasId);
+    public List<Vak> getVakkenByKlas(Klas klas);
+    public Vak getVakById(int vakId);
+    public List<Test> getTestenByVak(Vak vak, Klas klas);
+    public Test getTestById(int testId);
+    public List<Score> getScoresByTest(Test test);
 }
