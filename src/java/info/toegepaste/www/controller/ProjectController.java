@@ -163,19 +163,35 @@ public class ProjectController {
     }
 
     public void getScoresByTest() {
-        scores = projectService.getAllScoresByTest(selectedTestId);
+        if (selectedTestId != 0) {
+            scores = projectService.getAllScoresByTest(selectedTestId);
+        } else {
+            scores = projectService.getAllScores();
+        }
     }
 
     public void getScoresByVak() {
-        scores = projectService.getAllScoresByVak(selectedVakId);
+        if (selectedVakId != 0) {
+            scores = projectService.getAllScoresByVak(selectedVakId);
+        } else {
+            scores = projectService.getAllScores();
+        }
     }
 
     public void getScoresByKlas() {
-        scores = projectService.getAllScoresByKlas(selectedKlasId);
+        if (selectedKlasId != 0) {
+            scores = projectService.getAllScoresByKlas(selectedKlasId);
+        } else {
+            scores = projectService.getAllScores();
+        }
     }
 
     public void getScoresByStudent() {
-        scores = projectService.getAllScoresByStudent(selectedStudentId);
+        if (selectedStudentId != 0) {
+            scores = projectService.getAllScoresByStudent(selectedStudentId);
+        } else {
+            scores = projectService.getAllScores();
+        }
     }
 
     @PostConstruct

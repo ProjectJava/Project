@@ -83,6 +83,7 @@
                         </div>
                         <div id="testen">
                             <h:selectOneMenu id="tests" class="testen" value="#{projectController.selectedTestId}">
+                                <f:selectItem itemLabel="Alle testen" itemValue="0" />
                                 <f:selectItems value="#{projectController.tests}" var="test" itemLabel="#{test.vak.naam} - #{test.naam}" itemValue="#{test.id}"  />
 
                                 <f:ajax event="change" render="tableTests" listener="#{projectController.getScoresByTest()}" execute="tests"/>
@@ -109,6 +110,7 @@
                         </div>
                         <div id="klassen">
                             <h:selectOneMenu id="klass" class="klassen" value="#{projectController.selectedKlasId}">
+                                <f:selectItem itemLabel="Alle klassen" itemValue="0" />
                                 <f:selectItems value="#{projectController.klassen}" var="klas" itemLabel="#{klas.groep}" itemValue="#{klas.id}"  />
 
                                 <f:ajax event="change" render="tableKlassen" listener="#{projectController.getScoresByKlas()}" execute="klass"/>
@@ -134,6 +136,7 @@
                         </div>
                         <div id="vakken">
                             <h:selectOneMenu id="vaks" value="#{projectController.selectedVakId}">
+                                <f:selectItem itemLabel="Alle vakken" itemValue="0" />
                                 <f:selectItems value="#{projectController.vakken}" var="vak" itemLabel="#{vak.naam}" itemValue="#{vak.id}"  />
 
                                 <f:ajax event="change" render="tableVakken" listener="#{projectController.getScoresByVak()}" execute="vaks"/>
@@ -159,6 +162,7 @@
                         </div>
                         <div id="studenten">
                             <h:selectOneMenu id="students" value="#{projectController.selectedStudentId}">
+                                <f:selectItem itemLabel="Alle studenten" itemValue="0" />
                                 <f:selectItems value="#{projectController.studenten}" var="student" itemLabel="#{student.naam}" itemValue="#{student.id}"  />
 
                                 <f:ajax event="change" render="tableStudents" listener="#{projectController.getScoresByStudent()}" execute="students"/>
