@@ -26,10 +26,10 @@ public class ProjectPDF {
     @EJB
     private ProjectService projectService;
     
-    private String checkedScores[];
-    
     public void PDF() {
-        //projectService.createPDF();
+        List<Score> scores = projectService.getAllScores();
+        
+        projectService.createPDFje(scores);
     }
 
 }
