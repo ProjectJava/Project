@@ -257,38 +257,23 @@ public class ProjectServiceImpl implements ProjectService {
                 table.addCell(score.getTest().getNaam());
                 table.addCell(score.getPunt() + " / " + score.getTest().getMaxScore());
             }
+            
+            // breedte van de kolommen
+            float[] columnWidths = new float[] {10f, 25f, 20f, 20f, 15f};
+            table.setWidths(columnWidths);
 
             document.add(table);
 
             document.close();
+            
+            // PDF downloaden
             exportPdf(temp);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-    // PDF downloaden
-    public void exportPdf(File temp) throws FileNotFoundException, IOException {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        HttpServletResponse response = (HttpServletResponse) fc.getExternalContext().getResponse();
- 
-        response.setHeader("Content-Disposition", "attachment; filename=resultaat.pdf");
-        response.setContentLength((int) temp.length());
- 
-        ServletOutputStream out = null;
- 
-        FileInputStream input = new FileInputStream(temp);
-        byte[] buffer = new byte[1024];
-        out = response.getOutputStream();
-        int i = 0;
-        while ((i = input.read(buffer)) != -1) {
-            out.write(buffer);
-            out.flush();
-        }
- 
-        fc.responseComplete();
-    }
-
+    
     public void createPDF(List<Score> scores) {
         try {
             Document document = new Document();
@@ -338,15 +323,44 @@ public class ProjectServiceImpl implements ProjectService {
                 table.addCell(score.getTest().getNaam());
                 table.addCell(score.getPunt() + " / " + score.getTest().getMaxScore());
             }
+            
+            // breedte van de kolommen
+            float[] columnWidths = new float[] {10f, 25f, 20f, 20f, 15f};
+            table.setWidths(columnWidths);
 
             document.add(table);
 
             document.close();
+            
+            // PDF downloaden
             exportPdf(temp);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
+    // PDF downloaden
+    public void exportPdf(File temp) throws FileNotFoundException, IOException {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) fc.getExternalContext().getResponse();
+ 
+        response.setHeader("Content-Disposition", "attachment; filename=resultaat.pdf");
+        response.setContentLength((int) temp.length());
+ 
+        ServletOutputStream out = null;
+ 
+        FileInputStream input = new FileInputStream(temp);
+        byte[] buffer = new byte[1024];
+        out = response.getOutputStream();
+        int i = 0;
+        while ((i = input.read(buffer)) != -1) {
+            out.write(buffer);
+            out.flush();
+        }
+ 
+        fc.responseComplete();
+    }
+
     // Voor lijnen toe te voegen aan PDF
     private static void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
