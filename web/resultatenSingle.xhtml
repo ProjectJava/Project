@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Resultaten | Score Tracker</title>
+        <h:outputStylesheet library="css" name="style.css"  />
+        <h:outputScript library="js" name="jquery-1.11.1.min.js" /> 
+        <h:outputScript library="js" name="main.js" />  
+
+    </h:head>
+    <h:body>
+        <div id="wrapper">
+            <div id="menu-wrapper">
+                <div id="menu" class="container">
+                    <ul>
+                        <li><h:outputLink value="index.xhtml">Home</h:outputLink></li>
+                        <li class="current"><h:outputLink value="resultaten.xhtml">Resultaten</h:outputLink></li>
+                        <li><h:outputLink value="upload.xhtml">Uploaden</h:outputLink></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="header-wrapper">
+                <div id="header">
+                    <h1>Score tracker</h1>
+                    <p>Resultaten</p>
+                </div>
+            </div>
+            <div id="welcome-wrapper">
+                <div id="welcome" class="container">
+                </div>
+                <h:form>   
+
+                    <h:selectOneMenu id="klass" class="klassen" value="#{projectController.selectedKlasId}">
+                        <f:selectItem itemLabel="Selecteer klas" itemValue="0"/>
+                        <f:selectItems value="#{projectController.klassen}" var="klas" itemLabel="#{klas.groep}" itemValue="#{klas.id}"  />
+                        <f:ajax event="change" render="tableTests" listener="#{projectController.getScoresByKlas()}" execute="klass"/>
+                    </h:selectOneMenu>                    
+
+                    <h:selectOneMenu id="vaks" value="#{projectController.selectedVakId}">
+                        <f:selectItem itemLabel="Selecteer vak" itemValue="0"/>
+                        <f:selectItems value="#{projectController.vakken}" var="vak" itemLabel="#{vak.naam}" itemValue="#{vak.id}"  />
+                        <f:ajax event="change" render="tableTests" listener="#{projectController.getScoresByVak()}" execute="vaks"/>
+                    </h:selectOneMenu>                    
+
+                    <h:selectOneMenu id="tests" class="testen" value="#{projectController.selectedTestId}">
+                        <f:selectItem itemLabel="Selecteer vak" itemValue="0"/>
+                        <f:selectItems value="#{projectController.tests}" var="test" itemLabel="#{test.naam}" itemValue="#{test.id}"  />
+                        <f:ajax event="change" render="tableTests" listener="#{projectController.getScoresByTest()}" execute="tests"/>
+                    </h:selectOneMenu>
+
+                    <h:dataTable id="tableTests" border="2" var="score" value="#{projectController.scores}">
+                        <h:column>
+                            <h:selectBooleanCheckbox value="#{projectController.selectedIds[score.id]}" />
+                        </h:column>
+                        <h:column>
+                            <h:outputText value="#{score.punt}"/>
+                        </h:column>
+                        <h:column>
+                            <h:outputText value="#{score.student.naam}"/>
+                        </h:column>
+                    </h:dataTable>  
+
+                    <h:commandButton value="Maak pdf van geslecteerde resultaten" action="#{projectController.getSelectedItems}" />
+                </h:form>
+            </div>
+        </div>
+    </h:body>
+</html>
+

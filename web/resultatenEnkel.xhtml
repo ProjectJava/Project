@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Resultaten | Score Tracker</title>
+        <h:outputStylesheet library="css" name="style.css"  />
+        <h:outputScript library="js" name="jquery-1.11.1.min.js" /> 
+        <h:outputScript library="js" name="main.js" />  
+        <script type="text/javascript">
+            $(document).ready(function () {                
+                $("#navDropDownVakken").hide();
+                $("#navDropDownTesten").hide();
+            });
+
+            function dropDownKlassenChange() {                
+                $("#navDropDownVakken").show();
+                $("#navDropDownTesten").hide();
+            }
+
+            function dropDownVakkenChange() {                
+                $("#navDropDownTesten").show();
+            }
+
+            function dropDownTestenChange() {
+                
+            }
+
+        </script>
+
+    </h:head>
+    <h:body>
+        <div id="wrapper">
+            <div id="menu-wrapper">
+                <div id="menu" class="container">
+                    <ul>
+                        <li><h:outputLink value="index.xhtml">Home</h:outputLink></li>
+                        <li class="current"><h:outputLink value="resultaten.xhtml">Resultaten</h:outputLink></li>
+                        <li><h:outputLink value="upload.xhtml">Uploaden</h:outputLink></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="header-wrapper">
+                <div id="header">
+                    <h1>Score tracker</h1>
+                    <p>Resultaten</p>
+                </div>
+            </div>
+            <div id="welcome-wrapper">
+                <div id="welcome" class="container">
+                    
+                    <center>
+                <h:form>                      
+                    <div id="navDropDownKlassen" style="padding-right: 5px; float: left; margin-left: 33%;">
+                    <h:selectOneMenu id="klass" class="klassen" value="#{projectController.gekozenKlas}" onchange="dropDownKlassenChange()">
+                        <f:selectItem itemLabel="Selecteer klas" itemValue="0"/>
+                        <f:selectItems value="#{projectController.klassen}" var="klas" itemLabel="#{klas.groep}" itemValue="#{klas.id}"  />
+                        <f:ajax event="change" render="vaks" listener="#{projectController.vakkenOphalen()}" execute="klass"/>
+                    </h:selectOneMenu>
+                    </div>
+
+                    <div id="navDropDownVakken" style="padding-right: 5px; float: left; overflow: hidden;">
+                    <h:selectOneMenu id="vaks" value="#{projectController.gekozenVak}" onchange="dropDownVakkenChange()">
+                        <f:selectItem itemLabel="Selecteer vak" itemValue="0"/>
+                        <f:selectItems value="#{projectController.vakken}" var="vak" itemLabel="#{vak.naam}" itemValue="#{vak.id}"  />
+                        <f:ajax event="change" render="tests" listener="#{projectController.testenOphalen()}" execute="vaks"/>
+                    </h:selectOneMenu>
+                    </div>
+
+                    <div id="navDropDownTesten" style="overflow: hidden; float: left;">
+                    <h:selectOneMenu id="tests" class="testen" value="#{projectController.gekozenTest}" onchange="dropDownTestenChange()">
+                        <f:selectItem itemLabel="Selecteer test" itemValue="0"/>
+                        <f:selectItems value="#{projectController.tests}" var="test" itemLabel="#{test.naam}" itemValue="#{test.id}"  />
+                        <f:ajax event="change" render="tableTests" listener="#{projectController.scoresOphalen()}" execute="tests"/>
+                    </h:selectOneMenu> 
+                    </div>
+                    
+                    <br /><br />
+
+                    <h:dataTable id="tableTests" border="1" var="score" cellpadding="10px" value="#{projectController.scores}">
+                        <h:column>
+                            <f:facet name="header">Kies</f:facet>
+                            <h:selectBooleanCheckbox value="#{projectController.selectedIds[score.id]}" id="boxs">                                 
+                            </h:selectBooleanCheckbox>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Klas</f:facet>
+                            <h:outputText value="#{score.test.klas.groep}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Vak</f:facet>
+                            <h:outputText value="#{score.test.vak.naam}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Score</f:facet>
+                            <h:outputText value="#{score.punt}/#{score.test.maxScore}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Student</f:facet>
+                            <h:outputText value="#{score.student.naam}"/>
+                        </h:column>
+                    </h:dataTable> 
+                                        
+<br />
+                <br />
+                    <h:commandButton value="Maak pdf van geslecteerde resultaten" action="#{projectController.getSelectedItems}" />                    
+                </h:form>
+                    </center>
+                </div>
+                
+            </div>
+        </div>
+    </h:body>
+</html>
+
