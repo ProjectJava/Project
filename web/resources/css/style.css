@@ -161,6 +161,17 @@ p {
 	color: #4c4c4c;
 }
 
+#welcome table {
+    margin: 20px auto;
+}
+
+#welcome table tr {
+    border-bottom: 1px solid lightgray;
+}
+
+#welcome table td {
+    padding: 5px 10px;
+}
 /** FUNCTIONS HOME-PAGINA **/
 
 #functions-wrapper {
@@ -206,6 +217,10 @@ p {
 
 .function-excel h3:before {
         background-image: url("#{resource['img/excel.png']}");
+}
+
+.function-pdf h3:before {
+        background-image: url("#{resource['img/pdf.png']}");
 }
 
 /** FOOTER **/
