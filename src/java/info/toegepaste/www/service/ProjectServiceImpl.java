@@ -489,4 +489,18 @@ public class ProjectServiceImpl implements ProjectService {
         q.setParameter("test", test);
         return (List<Score>) q.getResultList();
     }
+    
+    @Override
+    public Student getStudentById(int studentId){
+        Query q = em.createNamedQuery("Student.findById");
+        q.setParameter("id", studentId);
+        return (Student) q.getSingleResult();
+    }
+    
+    @Override
+    public List<Score> getScoresByStudent(Student student){
+        Query q = em.createNamedQuery("Score.findByStudent");
+        q.setParameter("student", student);
+        return (List<Score>) q.getResultList();
+    }
 }

@@ -44,4 +44,7 @@ public interface ProjectService {
     public List<Test> getTestenByVak(Vak vak, Klas klas);
     public Test getTestById(int testId);
     public List<Score> getScoresByTest(Test test);
+    
+    public Student getStudentById(int studentId);
+    public List<Score> getScoresByStudent(Student student);
 }

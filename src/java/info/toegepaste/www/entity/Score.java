@@ -19,7 +19,9 @@ import javax.persistence.NamedQuery;
 @NamedQueries({
     
     @NamedQuery(name = "Score.findById", query = "SELECT s FROM Score s WHERE s.id = :id"),
-    @NamedQuery(name = "Score.findByTest", query = "SELECT s FROM Score s WHERE s.test = :test")})
+    @NamedQuery(name = "Score.findByTest", query = "SELECT s FROM Score s WHERE s.test = :test"),
+    @NamedQuery(name = "Score.findByStudent", query = "SELECT s FROM Score s WHERE s.student = :student")
+})
 public class Score  implements java.io.Serializable {
 
     @Id

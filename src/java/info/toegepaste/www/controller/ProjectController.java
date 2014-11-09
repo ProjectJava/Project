@@ -33,7 +33,7 @@ public class ProjectController {
     private ProjectService projectService;
     
     // voor ajax
-    private int gekozenKlas, gekozenVak, gekozenTest;
+    private int gekozenKlas, gekozenVak, gekozenTest, studentID;
 
     private List<Score> scores;
     private List<Test> tests;
@@ -45,6 +45,14 @@ public class ProjectController {
     // init van checkboxstuff
     private Map<Long, Boolean> selectedScoreIds = new HashMap<Long, Boolean>();
     private List<Score> selectedDataList;
+    
+    private List<Score> resultatenStudent;
+    private double algemeenTotaalMax;
+    private double algemeenTotaal;
+    
+    private ArrayList<Vak> behaaldeScoresVak = new ArrayList<Vak>();
+    private ArrayList<Double> behaaldeScoresArray = new ArrayList<Double>();
+    private ArrayList<Double> maximumScoresArray = new ArrayList<Double>();
 
     public static final String FILENAME = "resultaat.pdf";
     public static final String PATH = "";
@@ -192,6 +200,84 @@ public class ProjectController {
         }
     }
     
+    // buh    
+    public ArrayList<Vak> getBehaaldeScoresVak() {
+        return behaaldeScoresVak;
+    }
+
+    public void setBehaaldeScoresVak(ArrayList<Vak> behaaldeScoresVak) {
+        this.behaaldeScoresVak = behaaldeScoresVak;
+    }
+
+    public ArrayList<Double> getBehaaldeScoresArray() {
+        return behaaldeScoresArray;
+    }
+
+    public void setBehaaldeScoresArray(ArrayList<Double> behaaldeScoresArray) {
+        this.behaaldeScoresArray = behaaldeScoresArray;
+    }
+
+    public ArrayList<Double> getMaximumScoresArray() {
+        return maximumScoresArray;
+    }
+
+    public void setMaximumScoresArray(ArrayList<Double> maximumScoresArray) {
+        this.maximumScoresArray = maximumScoresArray;
+    }
+    //buh
+    
+    public void scoresOphalenStudent(){
+        Student student = projectService.getStudentById(studentID);
+        scores = projectService.getScoresByStudent(student);
+        
+        int index = 0; 
+        for(Score score : scores)
+            {
+                // array ipv hash
+                if (behaaldeScoresVak.contains(score.getTest().getVak())) {
+                    // vak zit er al in
+                } else
+                {
+                    behaaldeScoresVak.add(score.getTest().getVak());
+                }
+                
+                index = behaaldeScoresVak.indexOf(score.getTest().getVak());
+                if (behaaldeScoresArray.size() < behaaldeScoresVak.size()) {
+                    behaaldeScoresArray.add(score.getPunt());
+                } else if (behaaldeScoresArray.get(index) != null) {
+                    // is al een score voor het vak
+                    Double vorige = behaaldeScoresArray.get(index);
+                    behaaldeScoresArray.set(index, vorige + score.getPunt());
+                }
+                if (maximumScoresArray.size() < behaaldeScoresVak.size()) {
+                    maximumScoresArray.add(score.getTest().getMaxScore());
+                } else if (behaaldeScoresArray.get(index) != null) {
+                    // is al max voor dit vak
+                    Double vorige = maximumScoresArray.get(index);
+                    maximumScoresArray.set(index, vorige + score.getTest().getMaxScore());
+                }                
+                
+                /*Double previousValue = behaaldeScores.get(score.getTest().getVak());
+                if(previousValue == null){ 
+                    previousValue = 0.0;
+                }
+                behaaldeScores.put(score.getTest().getVak(), previousValue + score.getPunt());
+                
+                Double previousValue2 = maximumScores.get(score.getTest().getVak());
+                if(previousValue2 == null){ 
+                    previousValue2 = 0.0;
+                }  
+                maximumScores.put(score.getTest().getVak(), previousValue2 + score.getTest().getMaxScore());*/
+                
+                algemeenTotaal+= score.getPunt();
+                
+                algemeenTotaalMax+= score.getTest().getMaxScore();
+                //System.out.println("woops" + score.getTest().getVak().getNaam() + (previousValue + score.getPunt()) );
+            }
+
+        
+    }
+    
     // ajax scores dropdown invullen
      public void vakkenOphalen(){        
         Klas klas = projectService.getKlasById(gekozenKlas);       
@@ -234,6 +320,38 @@ public class ProjectController {
 
     public void setGekozenTest(int gekozenTest) {
         this.gekozenTest = gekozenTest;
+    }
+    
+    public int getStudentID() {
+        return studentID;
+    }
+
+    public void setStudentID(int studentID) {
+        this.studentID = studentID;
+    }
+    public List<Score> getResultatenStudent() {
+        return resultatenStudent;
+    }
+
+    public void setResultatenStudent(List<Score> resultatenStudent) {
+        this.resultatenStudent = resultatenStudent;
+    }
+    
+    
+    public double getAlgemeenTotaalMax() {
+        return algemeenTotaalMax;
+    }
+
+    public void setAlgemeenTotaalMax(double algemeenTotaalMax) {
+        this.algemeenTotaalMax = algemeenTotaalMax;
+    }
+    
+    public double getAlgemeenTotaal() {
+        return algemeenTotaal;
+    }
+
+    public void setAlgemeenTotaal(double algemeenTotaal) {
+        this.algemeenTotaal = algemeenTotaal;
     }
     
     // einde ajax stuff

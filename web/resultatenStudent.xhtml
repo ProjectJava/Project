@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Resultaten | Score Tracker</title>
+        <h:outputStylesheet library="css" name="style.css"  />
+        <h:outputScript library="js" name="jquery-1.11.1.min.js" /> 
+        <h:outputScript library="js" name="main.js" />  
+
+    </h:head>
+    <h:body>
+        <div id="wrapper">
+            <div id="menu-wrapper">
+                <div id="menu" class="container">
+                    <ul>
+                        <li><h:outputLink value="index.xhtml">Home</h:outputLink></li>
+                        <li><h:outputLink value="resultatenEnkel.xhtml">Resultaten per test</h:outputLink></li>
+                        <li class="current"><h:outputLink value="resultatenStudent.xhtml">Resultaten per student</h:outputLink></li>
+                        <li><h:outputLink value="resultatenSingle.xhtml">Resultaten filteren</h:outputLink></li>
+                        <li><h:outputLink value="upload.xhtml">Uploaden</h:outputLink></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="header-wrapper">
+                <div id="header">
+                    <h1>Score tracker</h1>
+                    <p>Resultaten</p>
+                </div>
+            </div>
+            <div id="welcome-wrapper">
+                <div id="welcome" class="container">
+
+                    <center>
+                        <h:form>
+
+                            <p>Selecteer een student om hier de resultaten van te bekijken.</p>
+
+                            <h:selectOneMenu class="ct" id="getoondeStudenten" value="#{projectController.studentID}">
+                                <f:selectItem itemLabel="Selecteer student" itemValue="0"/>
+                                <f:selectItems value="#{projectController.studenten}" var="student" itemValue="#{student.id}" itemLabel="#{student.naam}" />  
+                                <f:ajax event="change" render="tableTests oops oops2" listener="#{projectController.scoresOphalenStudent}" execute="getoondeStudenten"/>
+                            </h:selectOneMenu>
+                            <br/><br/>
+                            <div id='resultatenScores'>
+                                <h:dataTable id="tableTests" border="1" var="score" cellpadding="10px" value="#{projectController.scores}">
+
+                                    <h:column>
+                                        <f:facet name="header">Kies</f:facet>
+                                        <h:selectBooleanCheckbox value="#{projectController.selectedIds[score.id]}" id="boxs">                                 
+                                        </h:selectBooleanCheckbox>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Klas</f:facet>
+                                        <h:outputText value="#{score.test.klas.groep}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Vak</f:facet>
+                                        <h:outputText value="#{score.test.vak.naam}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Score</f:facet>
+                                        <h:outputText value="#{score.punt}/#{score.test.maxScore}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Student</f:facet>
+                                        <h:outputText value="#{score.student.naam}"/>
+                                    </h:column>
+
+                                </h:dataTable>                    
+                            </div>
+                            <br />
+                            <h:commandButton value="Maak pdf van geslecteerde resultaten" action="#{projectController.getSelectedItems}" />
+                        </h:form>  
+
+
+<br /><br />
+                        <h2>Totaal per vak</h2>
+                        <h:panelGroup id="oops">
+                            <ul>
+                                <c:forEach var="vak" items="#{projectController.behaaldeScoresVak}">
+                                    <li style="list-style-type: none;"><b>${vak.naam}</b>: ${projectController.behaaldeScoresArray.get(i)}/${projectController.maximumScoresArray.get(i)}</li>
+                                </c:forEach>
+                            </ul>
+                        </h:panelGroup>
+                        <br />
+                        <br />
+                        <h2>Algemeen totaal</h2>
+                        <h:dataTable id="oops2" border="1" var="score" cellpadding="10px" value="#{projectController.behaaldeScoresArray}">                                    
+                            <h:column>
+                                <f:facet name="header">Totaal behaalde score</f:facet>
+                                <h:outputText value="#{projectController.algemeenTotaal}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Maximum score</f:facet>
+                                <h:outputText value="#{projectController.algemeenTotaalMax}"/>
+                            </h:column>
+
+                        </h:dataTable>   
+                    </center>
+                </div>
+
+            </div>
+        </div>
+    </h:body>
+</html>
+
