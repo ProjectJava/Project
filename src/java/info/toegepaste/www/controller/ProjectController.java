@@ -62,12 +62,7 @@ public class ProjectController {
         // Do your thing with the MyData items in List selectedDataList.
         // MAAK HIER DE PDF AAN
         // IN DE ARRAY SELECTEDDATALIST ZITTEN ALLE SCORES DIE GESELECTEERD ZIJN ALS SCORE OBJECT
-        //projectService.createPDF(selectedDataList);
-        FileOutputStream os = new FileOutputStream(RESULT);
-        os.write(projectService.createPDF(selectedDataList));
-        os.flush();
-        os.close();
-        projectService.extractDocLevelAttachments(RESULT);
+        projectService.createPDF(selectedDataList);
 
         return "resultatenTest"; // Navigation case. // Ga naar de pdf / ga naar een bedankt pagina / doe iets nuttig
     }

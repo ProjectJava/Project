@@ -36,6 +36,7 @@ import javax.persistence.Query;
 import info.toegepaste.www.entity.*;
 import java.awt.FileDialog;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -48,6 +49,9 @@ import java.util.Scanner;
 import javax.ejb.TransactionAttribute;
 import static javax.ejb.TransactionAttributeType.REQUIRES_NEW;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.swing.JFrame;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -201,7 +205,12 @@ public class ProjectServiceImpl implements ProjectService {
     public void createPDFje(List<Score> scores) {
         try {
             Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream("Test.pdf"));
+            
+            // Tijdelijk bestand aanmaken (PDF)
+            File temp = File.createTempFile("resultaat", ".pdf");
+
+            //PDF openen en bewerken
+            PdfWriter.getInstance(document, new FileOutputStream(temp.getAbsolutePath()));
             document.open();
 
             // MetaData toevoegen
@@ -215,13 +224,18 @@ public class ProjectServiceImpl implements ProjectService {
             addEmptyLine(preface, 2);
             document.add(preface);
 
-            // Tabel toevoegen
-            PdfPTable table = new PdfPTable(3);
+            // Tabel toevoegen met 5 kolommen
+            PdfPTable table = new PdfPTable(5);
 
-            PdfPCell c1 = new PdfPCell(new Phrase("Student"));
+            
+            PdfPCell c1 = new PdfPCell(new Phrase("Klas"));
             c1.setHorizontalAlignment(Element.ALIGN_LEFT);
             table.addCell(c1);
             
+            c1 = new PdfPCell(new Phrase("Student"));
+            c1.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table.addCell(c1);
+
             c1 = new PdfPCell(new Phrase("Vak"));
             c1.setHorizontalAlignment(Element.ALIGN_LEFT);
             table.addCell(c1);
@@ -235,9 +249,9 @@ public class ProjectServiceImpl implements ProjectService {
             table.addCell(c1);
             table.setHeaderRows(1);
 
-            for (Iterator<Score> i = scores.iterator(); i.hasNext();) {
-                Score score = i.next();
-                
+            //tabel opvullen met scores uit "List<Score> scores"
+            for (Score score : scores) {
+                table.addCell(score.getStudent().getKlas().getGroep());
                 table.addCell(score.getStudent().getNaam());
                 table.addCell(score.getTest().getVak().getNaam());
                 table.addCell(score.getTest().getNaam());
@@ -247,16 +261,43 @@ public class ProjectServiceImpl implements ProjectService {
             document.add(table);
 
             document.close();
+            exportPdf(temp);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-    public byte[] createPDF(List<Score> scores) {
+    // PDF downloaden
+    public void exportPdf(File temp) throws FileNotFoundException, IOException {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) fc.getExternalContext().getResponse();
+ 
+        response.setHeader("Content-Disposition", "attachment; filename=resultaat.pdf");
+        response.setContentLength((int) temp.length());
+ 
+        ServletOutputStream out = null;
+ 
+        FileInputStream input = new FileInputStream(temp);
+        byte[] buffer = new byte[1024];
+        out = response.getOutputStream();
+        int i = 0;
+        while ((i = input.read(buffer)) != -1) {
+            out.write(buffer);
+            out.flush();
+        }
+ 
+        fc.responseComplete();
+    }
+
+    public void createPDF(List<Score> scores) {
         try {
             Document document = new Document();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            PdfWriter writer = PdfWriter.getInstance(document, baos);
+            
+            // Tijdelijk bestand aanmaken (PDF)
+            File temp = File.createTempFile("resultaat", ".pdf");
+
+            //PDF openen en bewerken
+            PdfWriter.getInstance(document, new FileOutputStream(temp.getAbsolutePath()));
             document.open();
 
             // MetaData toevoegen
@@ -271,7 +312,7 @@ public class ProjectServiceImpl implements ProjectService {
             document.add(preface);
 
             // Tabel toevoegen
-            PdfPTable table = new PdfPTable(3);
+            PdfPTable table = new PdfPTable(4);
 
             PdfPCell c1 = new PdfPCell(new Phrase("Student"));
             c1.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -290,9 +331,8 @@ public class ProjectServiceImpl implements ProjectService {
             table.addCell(c1);
             table.setHeaderRows(1);
 
-            for (Iterator<Score> i = scores.iterator(); i.hasNext();) {
-                Score score = i.next();
-
+            //tabel opvullen met scores uit "List<Score> scores"
+            for (Score score : scores) {
                 table.addCell(score.getStudent().getNaam());
                 table.addCell(score.getTest().getVak().getNaam());
                 table.addCell(score.getTest().getNaam());
@@ -302,38 +342,11 @@ public class ProjectServiceImpl implements ProjectService {
             document.add(table);
 
             document.close();
-            return baos.toByteArray();
+            exportPdf(temp);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
     }
-
-    public void extractDocLevelAttachments(String filename) throws IOException {
-        PdfReader reader = new PdfReader(filename);
-        PdfDictionary root = reader.getCatalog();
-        PdfDictionary documentnames = root.getAsDict(PdfName.NAMES);
-        PdfDictionary embeddedfiles = documentnames.getAsDict(PdfName.EMBEDDEDFILES);
-        PdfArray filespecs = embeddedfiles.getAsArray(PdfName.NAMES);
-        PdfDictionary filespec;
-        PdfDictionary refs;
-        FileOutputStream fos;
-        PRStream stream;
-        for (int i = 0; i < filespecs.size(); ) {
-          filespecs.getAsString(i++);
-          filespec = filespecs.getAsDict(i++);
-          refs = filespec.getAsDict(PdfName.EF);
-          for (PdfName key : refs.getKeys()) {
-            fos = new FileOutputStream(String.format(PATH, filespec.getAsString(key).toString()));
-            stream = (PRStream) PdfReader.getPdfObject(refs.getAsIndirectObject(key));
-            fos.write(PdfReader.getStreamBytes(stream));
-            fos.flush();
-            fos.close();
-          }
-        }
-        reader.close();
-    }
-    
     // Voor lijnen toe te voegen aan PDF
     private static void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
@@ -411,5 +424,10 @@ public class ProjectServiceImpl implements ProjectService {
         Query q = em.createQuery("SELECT k from Klas k");
 
         return (List<Klas>) q.getResultList();
+    }
+
+    @Override
+    public void extractDocLevelAttachments(String filename) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

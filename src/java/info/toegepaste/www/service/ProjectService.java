@@ -33,7 +33,7 @@ public interface ProjectService {
     public List<Student> getAllStudenten();
     public List<Klas> getAllKlassen();
     
-    public byte[] createPDF(List<Score> scores);
+    public void createPDF(List<Score> scores);
     public void extractDocLevelAttachments(String filename) throws IOException;
     public void createPDFje(List<Score> scores);
 }
