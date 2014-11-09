@@ -41,7 +41,7 @@
                             <h:selectOneMenu class="ct" id="getoondeStudenten" value="#{projectController.studentID}">
                                 <f:selectItem itemLabel="Selecteer student" itemValue="0"/>
                                 <f:selectItems value="#{projectController.studenten}" var="student" itemValue="#{student.id}" itemLabel="#{student.naam}" />  
-                                <f:ajax event="change" render="tableTests oops oops2" listener="#{projectController.scoresOphalenStudent}" execute="getoondeStudenten"/>
+                                <f:ajax event="change" render="tableTests :oops :oops2" listener="#{projectController.scoresOphalenStudent}" execute="getoondeStudenten"/>
                             </h:selectOneMenu>
                             <br/><br/>
                             <div id='resultatenScores'>
